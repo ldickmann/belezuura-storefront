@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     <>
       {/* Hero Carousel */}
-      {/* <HeroCarousel /> */}
+      <HeroCarousel />
 
       {/* Collections Section */}
       <CollectionsSection />

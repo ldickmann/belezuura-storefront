@@ -54,3 +54,78 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Hero Carousel Styles */
+.first-screen {
+  position: relative;
+  min-height: 100vh;
+}
+
+.main-slider__image-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.main-slider__image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(252, 238, 238, 0.3) 0%, transparent 50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.category-subtitle b {
+  font-weight: 700;
+}
+
+.scroll-down__icon {
+  animation: scroll-bounce 2s infinite;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+/* Smooth transitions for slides */
+.main-slider__item {
+  transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Button hover effect */
+.button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(106, 142, 88, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.button__text {
+  position: relative;
+  z-index: 1;
+}
