@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getProducts } from "@/lib/services/products";
 import HeroCarousel from "@/components/HeroCarousel";
+import CategoriesCarousel from "@/components/CategoriesCarousel";
 import CollectionsSection from "@/components/ColletionsSection";
 
 export default async function Home() {
@@ -11,6 +12,9 @@ export default async function Home() {
     <>
       {/* Hero Carousel */}
       <HeroCarousel />
+
+      {/* Categories Carousel - Flutuante */}
+      <CategoriesCarousel />
 
       {/* Collections Section */}
       <CollectionsSection />
