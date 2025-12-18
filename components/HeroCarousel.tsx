@@ -23,27 +23,27 @@ interface Slide {
 const SLIDES: Slide[] = [
   {
     id: 1,
-    subtitle: "new collection",
-    title: "Meet New Fashion Week",
+    subtitle: "Descubra a Nova Semana de Moda Belezuura",
+    title: "",
     buttonText: "Shop Now",
     buttonLink: "/shop",
-    image: "/images/hero/slide-1.svg",
+    image: "/images/hero/hero-img.jpg",
   },
   {
     id: 2,
-    subtitle: "new collection",
-    title: "Meet New Fashion Week",
+    subtitle: "",
+    title: "",
     buttonText: "Shop Now",
     buttonLink: "/shop",
-    image: "/images/hero/slide-2.svg",
+    image: "/images/hero/hero-img-01.jpg",
   },
   {
     id: 3,
-    subtitle: "new collection",
-    title: "Meet New Fashion Week",
+    subtitle: "",
+    title: "",
     buttonText: "Shop Now",
     buttonLink: "/shop",
-    image: "/images/hero/slide-3.svg",
+    image: "/images/hero/hero-img-02.jpg",
   },
 ];
 
