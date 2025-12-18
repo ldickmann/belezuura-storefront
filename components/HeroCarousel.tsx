@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+/**
+ * Interface para definir a estrutura de cada slide do carrossel
+ */
 interface Slide {
   id: number;
   subtitle: string;
@@ -13,6 +16,10 @@ interface Slide {
   image: string;
 }
 
+/**
+ * Dados dos slides do carrossel hero
+ * @constant
+ */
 const SLIDES: Slide[] = [
   {
     id: 1,
@@ -40,6 +47,10 @@ const SLIDES: Slide[] = [
   },
 ];
 
+/**
+ * Links das redes sociais exibidos na lateral do carrossel
+ * @constant
+ */
 const SOCIAL_LINKS = [
   { name: "FB", href: "#", label: "Facebook" },
   { name: "TW", href: "#", label: "Twitter" },
@@ -47,15 +58,42 @@ const SOCIAL_LINKS = [
   { name: "PT", href: "#", label: "Pinterest" },
 ];
 
+/**
+ * Componente HeroCarousel
+ *
+ * Carrossel principal da página inicial com navegação automática,
+ * controles manuais (setas e dots), contador de slides e links sociais.
+ *
+ * @returns {JSX.Element} Carrossel hero em tela cheia
+ */
 export default function HeroCarousel() {
+  // Estado para controlar o slide atual
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Estado para controlar reprodução automática
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
+  /**
+   * Navega para o próximo slide
+   */
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+
+  /**
+   * Navega para o slide anterior
+   */
   const prevSlide = () =>
     setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
+
+  /**
+   * Navega para um slide específico
+   * @param {number} index - Índice do slide de destino
+   */
   const goToSlide = (index: number) => setCurrentSlide(index);
 
+  /**
+   * Effect para controlar a navegação automática
+   * Muda de slide a cada 5 segundos quando autoplay está ativo
+   */
   useEffect(() => {
     if (!isAutoPlaying) return;
 
@@ -66,16 +104,17 @@ export default function HeroCarousel() {
   return (
     <section className="first-screen relative w-full h-screen min-h-150 overflow-hidden bg-rose-soft">
       <div className="absolute inset-0 flex">
-        {/* Left Side - Counter & Social Links */}
+        {/* Lateral Esquerda - Contador & Links Sociais (apenas desktop) */}
         <div className="first-screen__left hidden lg:flex flex-col justify-between py-8 px-6 z-20">
-          {/* Slide Counter */}
+          {/* Contador de Slides */}
           <div className="slider-count">
             <span className="text-2xl font-light text-plum-dark">
-              <span className="font-medium">{currentSlide + 1}</span>/{SLIDES.length}
+              <span className="font-medium">{currentSlide + 1}</span>/
+              {SLIDES.length}
             </span>
           </div>
 
-          {/* Social Links */}
+          {/* Links das Redes Sociais */}
           <ul className="side-socials flex flex-col gap-4">
             {SOCIAL_LINKS.map((social) => (
               <li key={social.name}>
@@ -90,10 +129,10 @@ export default function HeroCarousel() {
           </ul>
         </div>
 
-        {/* Center - Main Slider */}
+        {/* Centro - Slider Principal */}
         <div className="first-screen__center flex-1 relative">
           <div className="main-slider h-full w-full relative">
-            {/* Slides */}
+            {/* Container dos Slides */}
             <div className="main-slider__list-wrap h-full">
               {SLIDES.map((slide, index) => {
                 const isActive = index === currentSlide;
@@ -107,15 +146,20 @@ export default function HeroCarousel() {
                     <div className="main-slider__max h-full">
                       <div className="main-slider__row h-full flex items-center justify-center">
                         <div className="main-slider__cell relative w-full h-full">
-                          {/* Content */}
+                          {/* Conteúdo Textual do Slide */}
                           <div className="main-slider__content absolute left-8 md:left-16 lg:left-24 top-1/2 -translate-y-1/2 z-10 max-w-xl">
+                            {/* Subtítulo */}
                             <span className="main-slider__subtitle category-subtitle block mb-4 text-sm md:text-base tracking-widest uppercase">
                               <b className="font-bold">new</b> collection
                             </span>
+
+                            {/* Título Principal */}
                             <h2 className="main-slider__title text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-plum-dark leading-tight mb-8">
                               Meet New <br />
                               Fashion Week
                             </h2>
+
+                            {/* Botão de Ação */}
                             <Link
                               href={slide.buttonLink}
                               className="button inline-block">
@@ -125,14 +169,14 @@ export default function HeroCarousel() {
                             </Link>
                           </div>
 
-                          {/* Image */}
+                          {/* Imagem de Fundo do Slide */}
                           <div className="main-slider__image-wrap absolute inset-0">
                             <div
                               className="main-slider__image relative w-full h-full bg-cover bg-center bg-no-repeat"
                               style={{
                                 backgroundImage: `url('${slide.image}')`,
                               }}>
-                              {/* Fallback for Next.js Image optimization */}
+                              {/* Componente Image para otimização Next.js */}
                               <Image
                                 src={slide.image}
                                 alt={slide.title}
@@ -151,8 +195,9 @@ export default function HeroCarousel() {
               })}
             </div>
 
-            {/* Background Vector */}
+            {/* Elementos Decorativos de Fundo */}
             <div className="main-slider__bg-wrap absolute bottom-0 right-0 w-1/3 h-1/3 pointer-events-none opacity-30">
+              {/* Vetor SVG Decorativo */}
               <svg
                 className="main-slider__bg w-full h-full"
                 viewBox="0 0 400 400"
@@ -165,7 +210,7 @@ export default function HeroCarousel() {
                 />
               </svg>
 
-              {/* Scroll Down Indicator */}
+              {/* Indicador de Scroll (apenas desktop) */}
               <div className="scroll-down absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
                 <span className="scroll-down__icon block w-6 h-10 border-2 border-plum-dark/30 rounded-full relative">
                   <span className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-2 bg-plum-dark/50 rounded-full animate-bounce"></span>
@@ -175,9 +220,9 @@ export default function HeroCarousel() {
           </div>
         </div>
 
-        {/* Right Side - Dots & Arrows */}
+        {/* Lateral Direita - Navegação por Dots & Setas (apenas desktop) */}
         <div className="first-screen__right hidden lg:flex flex-col justify-center items-center gap-8 py-8 px-6 z-20">
-          {/* Dots Navigation */}
+          {/* Navegação por Dots */}
           <div className="slider-dots dots-1 flex flex-col gap-3">
             {SLIDES.map((_, index) => (
               <button
@@ -193,14 +238,17 @@ export default function HeroCarousel() {
             ))}
           </div>
 
-          {/* Arrow Navigation */}
+          {/* Navegação por Setas */}
           <div className="slider-arrows arrows-1 flex flex-col gap-4">
+            {/* Botão Slide Anterior */}
             <button
               onClick={prevSlide}
               className="w-12 h-12 flex items-center justify-center border-2 border-plum-dark/30 hover:border-plum-dark hover:bg-plum-dark hover:text-white transition-all duration-300 group"
               aria-label="Previous slide">
               <span className="block w-4 h-4 border-l-2 border-t-2 border-current -rotate-45 -mr-1 group-hover:scale-110 transition-transform"></span>
             </button>
+
+            {/* Botão Próximo Slide */}
             <button
               onClick={nextSlide}
               className="w-12 h-12 flex items-center justify-center border-2 border-plum-dark/30 hover:border-plum-dark hover:bg-plum-dark hover:text-white transition-all duration-300 group"
@@ -211,14 +259,15 @@ export default function HeroCarousel() {
         </div>
       </div>
 
-      {/* Mobile Controls */}
+      {/* Controles Mobile */}
       <div className="lg:hidden absolute bottom-8 left-0 right-0 z-20 flex justify-center items-center gap-6 px-4">
-        {/* Mobile Counter */}
+        {/* Contador Mobile */}
         <div className="text-white text-sm font-light bg-plum-dark/70 backdrop-blur-sm px-4 py-2 rounded-full">
-          <span className="font-medium">{currentSlide + 1}</span>/{SLIDES.length}
+          <span className="font-medium">{currentSlide + 1}</span>/
+          {SLIDES.length}
         </div>
 
-        {/* Mobile Arrows */}
+        {/* Setas Mobile */}
         <div className="flex gap-3">
           <button
             onClick={prevSlide}
@@ -234,16 +283,14 @@ export default function HeroCarousel() {
           </button>
         </div>
 
-        {/* Mobile Dots */}
+        {/* Dots Mobile */}
         <div className="flex gap-2">
           {SLIDES.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentSlide
-                  ? "bg-white w-6"
-                  : "bg-white/50"
+                index === currentSlide ? "bg-white w-6" : "bg-white/50"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
