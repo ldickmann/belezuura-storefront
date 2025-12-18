@@ -4,9 +4,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-/**
- * Interface para definir a estrutura de cada slide do carrossel
- */
 interface Slide {
   id: number;
   subtitle: string;
@@ -14,43 +11,39 @@ interface Slide {
   buttonText: string;
   buttonLink: string;
   image: string;
+  bgColor: string;
 }
 
-/**
- * Dados dos slides do carrossel hero
- * @constant
- */
 const SLIDES: Slide[] = [
   {
     id: 1,
-    subtitle: "Descubra a Nova Semana de Moda Belezuura",
-    title: "",
-    buttonText: "Shop Now",
-    buttonLink: "/shop",
-    image: "/images/hero/hero-img.jpg",
-  },
-  {
-    id: 2,
-    subtitle: "",
-    title: "",
+    subtitle: "Descubra a Nova Semana de Moda",
+    title: "Fashion Week",
     buttonText: "Shop Now",
     buttonLink: "/shop",
     image: "/images/hero/hero-img-01.jpg",
+    bgColor: "bg-[#1abc9c]",
+  },
+  {
+    id: 2,
+    subtitle: "Beleza & Cuidados",
+    title: "Hair Care",
+    buttonText: "Explore",
+    buttonLink: "/shop?category=cabelos",
+    image: "/images/hero/hero-img-02.jpg",
+    bgColor: "bg-[#48384c]",
   },
   {
     id: 3,
-    subtitle: "",
-    title: "",
-    buttonText: "Shop Now",
+    subtitle: "Nova Coleção",
+    title: "Beauty & Style",
+    buttonText: "Descobrir",
     buttonLink: "/shop",
-    image: "/images/hero/hero-img-02.jpg",
+    image: "/images/hero/hero-img-03.jpg",
+    bgColor: "bg-[#8b7b8e]",
   },
 ];
 
-/**
- * Links das redes sociais exibidos na lateral do carrossel
- * @constant
- */
 const SOCIAL_LINKS = [
   { name: "FB", href: "#", label: "Facebook" },
   { name: "TW", href: "#", label: "Twitter" },
@@ -58,243 +51,113 @@ const SOCIAL_LINKS = [
   { name: "PT", href: "#", label: "Pinterest" },
 ];
 
-/**
- * Componente HeroCarousel
- *
- * Carrossel principal da página inicial com navegação automática,
- * controles manuais (setas e dots), contador de slides e links sociais.
- *
- * @returns {JSX.Element} Carrossel hero em tela cheia
- */
 export default function HeroCarousel() {
-  // Estado para controlar o slide atual
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Estado para controlar reprodução automática
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  /**
-   * Navega para o próximo slide
-   */
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
-
-  /**
-   * Navega para o slide anterior
-   */
   const prevSlide = () =>
     setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
-
-  /**
-   * Navega para um slide específico
-   * @param {number} index - Índice do slide de destino
-   */
   const goToSlide = (index: number) => setCurrentSlide(index);
 
-  /**
-   * Effect para controlar a navegação automática
-   * Muda de slide a cada 5 segundos quando autoplay está ativo
-   */
   useEffect(() => {
     if (!isAutoPlaying) return;
-
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
   }, [isAutoPlaying, currentSlide]);
 
   return (
-    <section className="first-screen relative w-full h-screen min-h-150 overflow-hidden bg-rose-soft">
-      <div className="absolute inset-0 flex">
-        {/* Lateral Esquerda - Contador & Links Sociais (apenas desktop) */}
-        <div className="first-screen__left hidden lg:flex flex-col justify-between py-8 px-6 z-20">
-          {/* Contador de Slides */}
-          <div className="slider-count">
-            <span className="text-2xl font-light text-plum-dark">
-              <span className="font-medium">{currentSlide + 1}</span>/
-              {SLIDES.length}
-            </span>
-          </div>
-
-          {/* Links das Redes Sociais */}
-          <ul className="side-socials flex flex-col gap-4">
-            {SOCIAL_LINKS.map((social) => (
-              <li key={social.name}>
-                <a
-                  href={social.href}
-                  className="text-sm font-medium text-plum-dark hover:text-sage transition-colors duration-300 tracking-wider"
-                  aria-label={social.label}>
-                  {social.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+    <section className="first-screen relative w-full bg-white text-black">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10 lg:py-16 h-[80vh] lg:h-[85vh] relative">
+        {/* Redes sociais (esquerda) */}
+        <div className="hidden lg:flex flex-col items-center gap-2 text-[12px] font-medium text-[#4a4a4a] absolute left-0 top-1/2 -translate-y-1/2 z-30 tracking-widest">
+          {SOCIAL_LINKS.map((social, idx) => (
+            <div key={social.name} className="flex flex-col items-center gap-1">
+              {idx !== 0 && <span className="h-4 w-px bg-[#b3b3b3]" aria-hidden />}
+              <a
+                href={social.href}
+                aria-label={social.label}
+                className="hover:text-black transition-colors">
+                {social.name}
+              </a>
+            </div>
+          ))}
         </div>
 
-        {/* Centro - Slider Principal */}
-        <div className="first-screen__center flex-1 relative">
-          <div className="main-slider h-full w-full relative">
-            {/* Container dos Slides */}
-            <div className="main-slider__list-wrap h-full">
-              {SLIDES.map((slide, index) => {
-                const isActive = index === currentSlide;
+        <div className="grid lg:grid-cols-[52%_48%] gap-10 h-full relative">
+          {/* Área da imagem */}
+          <div className="relative rounded-2xl overflow-hidden shadow-sm bg-[#f8f8f8]">
+            {SLIDES.map((slide, index) => {
+              const isActive = index === currentSlide;
+              return (
+                <div
+                  key={slide.id}
+                  className={`main-slider__item ${isActive ? "is-active" : ""} absolute inset-0`}>                  
+                  <Image
+                    src={slide.image}
+                    alt={slide.title}
+                    fill
+                    priority={index === 0}
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 720px"
+                  />
+                </div>
+              );
+            })}
+          </div>
 
-                return (
-                  <div
-                    key={slide.id}
-                    className={`main-slider__item absolute inset-0 transition-opacity duration-1000 ${
-                      isActive ? "opacity-100 z-10" : "opacity-0 z-0"
-                    }`}>
-                    <div className="main-slider__max h-full">
-                      <div className="main-slider__row h-full flex items-center justify-center">
-                        <div className="main-slider__cell relative w-full h-full">
-                          {/* Conteúdo Textual do Slide */}
-                          <div className="main-slider__content absolute left-8 md:left-16 lg:left-24 top-1/2 -translate-y-1/2 z-10 max-w-xl">
-                            {/* Subtítulo */}
-                            <span className="main-slider__subtitle category-subtitle block mb-4 text-sm md:text-base tracking-widest uppercase">
-                              <b className="font-bold">new</b> collection
-                            </span>
-
-                            {/* Título Principal */}
-                            <h2 className="main-slider__title text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-plum-dark leading-tight mb-8">
-                              Meet New <br />
-                              Fashion Week
-                            </h2>
-
-                            {/* Botão de Ação */}
-                            <Link
-                              href={slide.buttonLink}
-                              className="button inline-block">
-                              <span className="button__text inline-block px-8 md:px-10 py-3 md:py-4 bg-plum-dark text-white text-sm md:text-base tracking-wider uppercase font-medium hover:bg-sage transition-all duration-300">
-                                {slide.buttonText}
-                              </span>
-                            </Link>
-                          </div>
-
-                          {/* Imagem de Fundo do Slide */}
-                          <div className="main-slider__image-wrap absolute inset-0">
-                            <div
-                              className="main-slider__image relative w-full h-full bg-cover bg-center bg-no-repeat"
-                              style={{
-                                backgroundImage: `url('${slide.image}')`,
-                              }}>
-                              {/* Componente Image para otimização Next.js */}
-                              <Image
-                                src={slide.image}
-                                alt={slide.title}
-                                fill
-                                className="object-cover"
-                                priority={index === 0}
-                                quality={90}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Elementos Decorativos de Fundo */}
-            <div className="main-slider__bg-wrap absolute bottom-0 right-0 w-1/3 h-1/3 pointer-events-none opacity-30">
-              {/* Vetor SVG Decorativo */}
-              <svg
-                className="main-slider__bg w-full h-full"
-                viewBox="0 0 400 400"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M200 0L400 200L200 400L0 200L200 0Z"
-                  fill="currentColor"
-                  className="text-plum-dark/10"
-                />
-              </svg>
-
-              {/* Indicador de Scroll (apenas desktop) */}
-              <div className="scroll-down absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
-                <span className="scroll-down__icon block w-6 h-10 border-2 border-plum-dark/30 rounded-full relative">
-                  <span className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-2 bg-plum-dark/50 rounded-full animate-bounce"></span>
-                </span>
-              </div>
+          {/* Conteúdo */}
+          <div className="relative flex items-center">
+            <div className="absolute inset-0 hero-dot-grid opacity-80 pointer-events-none" aria-hidden />
+            <div className="relative z-10 space-y-6 max-w-xl">
+              <span className="category-subtitle block text-xs tracking-[0.3em] uppercase text-[#6d6d6d]">
+                <b>New</b> Collection
+              </span>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-tight">Meet New<br />Fashion Week</h1>
+              <Link href={SLIDES[currentSlide].buttonLink} className="inline-block">
+                <span className="px-6 py-3 bg-black text-white text-sm uppercase tracking-wide font-semibold hover:bg-[#2a2a2a] transition-colors">{SLIDES[currentSlide].buttonText}</span>
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* Lateral Direita - Navegação por Dots & Setas (apenas desktop) */}
-        <div className="first-screen__right hidden lg:flex flex-col justify-center items-center gap-8 py-8 px-6 z-20">
-          {/* Navegação por Dots */}
-          <div className="slider-dots dots-1 flex flex-col gap-3">
-            {SLIDES.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentSlide
-                    ? "bg-plum-dark scale-125"
-                    : "bg-plum-dark/30 hover:bg-plum-dark/50"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Navegação por Setas */}
-          <div className="slider-arrows arrows-1 flex flex-col gap-4">
-            {/* Botão Slide Anterior */}
-            <button
-              onClick={prevSlide}
-              className="w-12 h-12 flex items-center justify-center border-2 border-plum-dark/30 hover:border-plum-dark hover:bg-plum-dark hover:text-white transition-all duration-300 group"
-              aria-label="Previous slide">
-              <span className="block w-4 h-4 border-l-2 border-t-2 border-current -rotate-45 -mr-1 group-hover:scale-110 transition-transform"></span>
-            </button>
-
-            {/* Botão Próximo Slide */}
-            <button
-              onClick={nextSlide}
-              className="w-12 h-12 flex items-center justify-center border-2 border-plum-dark/30 hover:border-plum-dark hover:bg-plum-dark hover:text-white transition-all duration-300 group"
-              aria-label="Next slide">
-              <span className="block w-4 h-4 border-r-2 border-b-2 border-current -rotate-45 -ml-1 group-hover:scale-110 transition-transform"></span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Controles Mobile */}
-      <div className="lg:hidden absolute bottom-8 left-0 right-0 z-20 flex justify-center items-center gap-6 px-4">
-        {/* Contador Mobile */}
-        <div className="text-white text-sm font-light bg-plum-dark/70 backdrop-blur-sm px-4 py-2 rounded-full">
-          <span className="font-medium">{currentSlide + 1}</span>/
-          {SLIDES.length}
+        {/* Contador inferior esquerdo */}
+        <div className="absolute bottom-6 left-6 lg:left-2 text-3xl font-semibold text-black tracking-tight flex items-baseline gap-1">
+          <span>{currentSlide + 1}</span>
+          <span className="text-base text-[#555]">/{SLIDES.length}</span>
         </div>
 
-        {/* Setas Mobile */}
-        <div className="flex gap-3">
+        {/* Navegação inferior direita */}
+        <div className="absolute bottom-6 right-6 flex items-center gap-4">
           <button
             onClick={prevSlide}
-            className="w-10 h-10 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300"
-            aria-label="Previous slide">
-            <span className="block w-3 h-3 border-l-2 border-t-2 border-plum-dark -rotate-45 -mr-0.5"></span>
+            className="hero-nav-arrow"
+            aria-label="Slide anterior">
+            <span className="block w-3 h-3 border-l border-b border-current -rotate-45" />
           </button>
           <button
             onClick={nextSlide}
-            className="w-10 h-10 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300"
-            aria-label="Next slide">
-            <span className="block w-3 h-3 border-r-2 border-b-2 border-plum-dark -rotate-45 -ml-0.5"></span>
+            className="hero-nav-arrow"
+            aria-label="Próximo slide">
+            <span className="block w-3 h-3 border-r border-t border-current rotate-45" />
           </button>
         </div>
 
-        {/* Dots Mobile */}
-        <div className="flex gap-2">
-          {SLIDES.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentSlide ? "bg-white w-6" : "bg-white/50"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+        {/* Navegação mobile */}
+        <div className="lg:hidden absolute bottom-4 left-0 right-0 flex items-center justify-center gap-4">
+          <button
+            onClick={prevSlide}
+            className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center bg-white/90">
+            <span className="block w-3 h-3 border-l border-b border-current -rotate-45" />
+          </button>
+          <div className="text-sm font-medium text-black bg-white/90 px-4 py-2 rounded-full shadow-sm">
+            {currentSlide + 1}/{SLIDES.length}
+          </div>
+          <button
+            onClick={nextSlide}
+            className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center bg-white/90">
+            <span className="block w-3 h-3 border-r border-t border-current rotate-45" />
+          </button>
         </div>
       </div>
     </section>
