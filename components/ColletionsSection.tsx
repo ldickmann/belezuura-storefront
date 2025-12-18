@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+/**
+ * Interface para definir a estrutura de cada coleção
+ */
 type Collection = {
   id: string;
   bg: string;
@@ -14,6 +17,10 @@ type Collection = {
   variant?: "collection" | "season";
 };
 
+/**
+ * Dados das coleções exibidas na seção
+ * @constant
+ */
 const COLLECTIONS: Collection[] = [
   {
     id: "c1",
@@ -75,18 +82,32 @@ const COLLECTIONS: Collection[] = [
   },
 ];
 
+/**
+ * Componente CollectionsSection
+ *
+ * Exibe uma grade de coleções com dois estilos visuais diferentes:
+ * - "season": Layout promocional com fundo de imagem completo
+ * - "collection": Layout dividido com imagem e conteúdo lado a lado
+ *
+ * Inclui contadores de produtos e clientes satisfeitos com padrão de pontos decorativo.
+ *
+ * @returns {JSX.Element} Seção de coleções
+ */
 export default function CollectionsSection() {
   return (
     <section className="collection-block wrapper relative bg-white text-black">
       <div className="collection-block__content">
         <div className="collections">
+          {/* Topo - Contador de Produtos */}
           <div className="collections__top">
             <div className="collections__max relative flex justify-center items-center">
-              {/* Dots pattern atrás do contador */}
+              {/* Padrão de pontos decorativo atrás do contador */}
               <div
                 aria-hidden="true"
                 className="dots-pattern dots-pattern--md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 pointer-events-none z-0"
               />
+
+              {/* Título com contador */}
               <h3 className="collection-title text-black relative z-10">
                 <span className="collection-title__count">2587</span>
                 <span className="collection-title__plus">+</span>
@@ -95,9 +116,11 @@ export default function CollectionsSection() {
             </div>
           </div>
 
+          {/* Grid de Coleções */}
           <div className="collections__grid space-y-6">
             {COLLECTIONS.map((col) =>
               col.variant === "season" ? (
+                // Layout para promoções sazonais
                 <article
                   key={col.id}
                   className="season-sale relative overflow-hidden rounded-lg">
@@ -110,6 +133,7 @@ export default function CollectionsSection() {
                     }}>
                     <div className="season-sale__row">
                       <div className="season-sale__cell">
+                        {/* Conteúdo com fundo translúcido */}
                         <div className="season-sale__content p-6 md:p-10 bg-white/10 backdrop-blur-sm rounded">
                           <h4 className="season-sale__title text-2xl font-serif text-black">
                             {col.title}
@@ -127,6 +151,8 @@ export default function CollectionsSection() {
                         </div>
                       </div>
                     </div>
+
+                    {/* Link cobrindo toda a área clicável */}
                     <Link
                       href={col.href ?? "#"}
                       className="season-sale__link absolute inset-0"
@@ -134,12 +160,13 @@ export default function CollectionsSection() {
                   </div>
                 </article>
               ) : (
+                // Layout para coleções regulares
                 <article
                   key={col.id}
                   className="collection collection_1 relative overflow-hidden rounded-lg">
                   <div className="collection__all relative grid md:grid-cols-2">
+                    {/* Coluna da Imagem */}
                     <div className="collection__mob-image md:col-span-1">
-                      {/* imagem como background para mobile/desktop */}
                       <div
                         className="collection__image w-full h-48 md:h-full bg-center bg-cover"
                         style={{ backgroundImage: `url(${col.bg})` }}
@@ -152,17 +179,23 @@ export default function CollectionsSection() {
                       )}
                     </div>
 
+                    {/* Coluna do Conteúdo */}
                     <div className="collection__row md:col-span-1 flex items-center">
                       <div className="collection__cell p-6 md:p-10">
                         <div className="collection__content">
+                          {/* Subtítulo */}
                           {col.subtitleText && (
                             <span className="collection__subtitle category-subtitle block text-sm uppercase text-black">
                               <b>{col.subtitleBold}</b> {col.subtitleText}
                             </span>
                           )}
+
+                          {/* Título da Coleção */}
                           <h4 className="collection__title text-2xl md:text-3xl font-serif mt-2 text-black">
                             {col.title}
                           </h4>
+
+                          {/* Link de Ação */}
                           <Link
                             href={col.href ?? "#"}
                             className="collection__more read-more inline-block mt-4">
@@ -172,6 +205,7 @@ export default function CollectionsSection() {
                       </div>
                     </div>
 
+                    {/* Link cobrindo toda a área clicável */}
                     <Link
                       href={col.href ?? "#"}
                       className="collection__link absolute inset-0"
@@ -182,13 +216,16 @@ export default function CollectionsSection() {
             )}
           </div>
 
+          {/* Rodapé - Contador de Clientes Satisfeitos */}
           <div className="collections__bottom mt-8">
             <div className="collections__max relative flex justify-center items-center">
-              {/* Dots pattern atrás do contador */}
+              {/* Padrão de pontos decorativo */}
               <div
                 aria-hidden="true"
                 className="dots-pattern dots-pattern--md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 pointer-events-none z-0"
               />
+
+              {/* Título com contador */}
               <h3 className="collection-title text-black relative z-10">
                 <span className="collection-title__count">5649</span>
                 <span className="collection-title__plus">+</span>
@@ -200,6 +237,7 @@ export default function CollectionsSection() {
           </div>
         </div>
 
+        {/* Botão para Ver Todas as Coleções */}
         <div className="load-more mt-8">
           <Link
             href="/collections"
@@ -209,6 +247,7 @@ export default function CollectionsSection() {
         </div>
       </div>
 
+      {/* Vetores Decorativos de Fundo */}
       <Image
         src="/images/svg/vector-collections.svg"
         alt=""
