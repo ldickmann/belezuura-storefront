@@ -5,6 +5,15 @@
   --foreground: #171717;
 }
 
+@theme {
+  /* Paleta de Cores Belezuura */
+  --color-rose-soft: #fceeee;
+  --color-plum-dark: #48384c;
+  --color-gold-warm: #f2d295;
+  --color-sand: #d3ab91;
+  --color-sage: #6a8e58;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
