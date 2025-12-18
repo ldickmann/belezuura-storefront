@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getProducts } from "@/lib/services/products";
 
 export default async function Home() {
@@ -44,12 +45,14 @@ export default async function Home() {
                   key={product.id}
                   className="group">
                   <Link href={`/produto/${product.slug}`}>
-                    <div className="aspect-[3/4] bg-rose-soft rounded-lg overflow-hidden mb-4">
+                    <div className="aspect-3/4 bg-rose-soft rounded-lg overflow-hidden mb-4 relative">
                       {product.media[0]?.url && (
-                        <img
+                        <Image
                           src={product.media[0].url}
                           alt={product.media[0].alt}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       )}
                     </div>
