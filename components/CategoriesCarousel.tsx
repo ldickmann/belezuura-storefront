@@ -361,22 +361,22 @@ export default function CategoriesCarousel() {
   return (
     <section className="relative w-full bg-white py-8 sm:py-12 md:py-16 lg:py-20 overflow-hidden">
       {/* Gradiente decorativo - Mobile First */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#f2d295]/5 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-gold-warm/5 via-transparent to-transparent pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header - Mobile First */}
-        <header className="text-center mb-6 sm:mb-8 md:mb-10">
+        {/* <header className="text-center mb-6 sm:mb-8 md:mb-10">
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#48384c] mb-2 sm:mb-3">
             Suas Categorias Favoritas
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-[#48384c]/60 max-w-xl mx-auto px-4">
             De alfaiataria a beleza, tudo em um só lugar
           </p>
-        </header>
+        </header> */}
 
         {/* Carrossel Header com Indicadores - Mobile First */}
         <div className="flex items-center justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-200">
-          <h3 className="font-serif text-lg sm:text-xl md:text-2xl font-semibold text-[#48384c]">
+          <h3 className="font-serif text-lg sm:text-xl md:text-2xl font-semibold text-plum-dark">
             Categorias
           </h3>
 
@@ -387,7 +387,7 @@ export default function CategoriesCarousel() {
                 key={index}
                 className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${
                   index === activeIndicator
-                    ? "bg-[#f2d295] scale-125"
+                    ? "bg-gold-warm scale-125"
                     : "bg-gray-300"
                 }`}
                 aria-hidden="true"
@@ -425,14 +425,14 @@ export default function CategoriesCarousel() {
               <Link
                 key={`${category.id}-${index}`}
                 href={category.href}
-                className="flex flex-col items-center gap-2 sm:gap-2.5 md:gap-3 flex-shrink-0 w-[95px] sm:w-[110px] md:w-[140px] group transition-transform duration-300 active:scale-95 md:hover:-translate-y-2"
+                className="flex flex-col items-center gap-2 sm:gap-2.5 md:gap-3 shrink-0 w-23.75 sm:w-27.5 md:w-35 group transition-transform duration-300 active:scale-95 md:hover:-translate-y-2"
                 draggable={false}
                 onClick={(e) => {
                   if (isDragging) e.preventDefault();
                 }}>
                 {/* Ícone Circular - Mobile First */}
                 <div
-                  className={`relative w-[95px] h-[95px] sm:w-[110px] sm:h-[110px] md:w-[140px] md:h-[140px] rounded-full overflow-hidden shadow-sm border border-white/50 transition-all duration-300 group-active:shadow md:group-hover:shadow-lg md:group-hover:-translate-y-1 ${category.colorClass}`}>
+                  className={`relative w-23.75 h-23.75 sm:w-27.5 sm:h-27.5 md:w-35 md:h-35 rounded-full overflow-hidden shadow-sm border border-white/50 transition-all duration-300 group-active:shadow md:group-hover:shadow-lg md:group-hover:-translate-y-1 ${category.colorClass}`}>
                   <Image
                     src={category.image}
                     alt={category.name}
@@ -446,7 +446,7 @@ export default function CategoriesCarousel() {
                 </div>
 
                 {/* Nome da Categoria - Mobile First */}
-                <span className="text-xs sm:text-sm md:text-base font-medium text-[#48384c] text-center leading-tight transition-colors duration-300 group-active:text-[#f2d295] md:group-hover:text-[#f2d295] max-w-full px-1">
+                <span className="text-xs sm:text-sm md:text-base font-medium text-plum-dark text-center leading-tight transition-colors duration-300 group-active:text-gold-warm md:group-hover:text-gold-warm max-w-full px-1">
                   {category.name}
                 </span>
               </Link>
