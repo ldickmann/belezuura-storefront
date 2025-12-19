@@ -53,18 +53,15 @@ const SOCIAL_LINKS = [
 
 export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
   const prevSlide = () =>
     setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
-  const goToSlide = (index: number) => setCurrentSlide(index);
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying, currentSlide]);
+  }, [currentSlide]);
 
   return (
     <section className="first-screen relative w-full bg-white text-black">
@@ -72,8 +69,15 @@ export default function HeroCarousel() {
         {/* Redes sociais (esquerda) */}
         <div className="hidden lg:flex flex-col items-center gap-2 text-[12px] font-medium text-[#4a4a4a] absolute left-0 top-1/2 -translate-y-1/2 z-30 tracking-widest">
           {SOCIAL_LINKS.map((social, idx) => (
-            <div key={social.name} className="flex flex-col items-center gap-1">
-              {idx !== 0 && <span className="h-4 w-px bg-[#b3b3b3]" aria-hidden />}
+            <div
+              key={social.name}
+              className="flex flex-col items-center gap-1">
+              {idx !== 0 && (
+                <span
+                  className="h-4 w-px bg-[#b3b3b3]"
+                  aria-hidden
+                />
+              )}
               <a
                 href={social.href}
                 aria-label={social.label}
@@ -92,7 +96,9 @@ export default function HeroCarousel() {
               return (
                 <div
                   key={slide.id}
-                  className={`main-slider__item ${isActive ? "is-active" : ""} absolute inset-0`}>                  
+                  className={`main-slider__item ${
+                    isActive ? "is-active" : ""
+                  } absolute inset-0`}>
                   <Image
                     src={slide.image}
                     alt={slide.title}
@@ -108,14 +114,26 @@ export default function HeroCarousel() {
 
           {/* Conteúdo */}
           <div className="relative flex items-center">
-            <div className="absolute inset-0 hero-dot-grid opacity-80 pointer-events-none" aria-hidden />
+            <div
+              className="absolute right-0 top-1/2 -translate-y-1/2 hero-dot-grid opacity-80 pointer-events-none"
+              style={{ width: "50%", height: "50%" }}
+              aria-hidden
+            />
             <div className="relative z-10 space-y-6 max-w-xl">
               <span className="category-subtitle block text-xs tracking-[0.3em] uppercase text-[#6d6d6d]">
                 <b>New</b> Collection
               </span>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-tight">Meet New<br />Fashion Week</h1>
-              <Link href={SLIDES[currentSlide].buttonLink} className="inline-block">
-                <span className="px-6 py-3 bg-black text-white text-sm uppercase tracking-wide font-semibold hover:bg-[#2a2a2a] transition-colors">{SLIDES[currentSlide].buttonText}</span>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-tight">
+                Meet New
+                <br />
+                Fashion Week
+              </h1>
+              <Link
+                href={SLIDES[currentSlide].buttonLink}
+                className="inline-block">
+                <span className="px-6 py-3 bg-black text-white text-sm uppercase tracking-wide font-semibold hover:bg-[#2a2a2a] transition-colors">
+                  {SLIDES[currentSlide].buttonText}
+                </span>
               </Link>
             </div>
           </div>
