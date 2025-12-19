@@ -159,9 +159,9 @@ export default function HeroCarousel() {
         </div>
 
         {/* Grid principal: imagem + conteúdo */}
-        <div className="grid lg:grid-cols-[52%_48%] gap-10 h-full relative">
+        <div className="grid lg:grid-cols-1 gap-10 h-full relative">
           {/* Área da imagem: slides posicionados absoluto dentro do container */}
-          <div className="relative rounded-2xl overflow-hidden shadow-sm bg-rose-soft/50">
+          <div className="relative rounded-md overflow-hidden shadow-sm bg-rose-soft/50 h-full lg:w-[75%]">
             {SLIDES.map((slide, index) => {
               const isActive = index === currentSlide;
               return (
@@ -177,48 +177,50 @@ export default function HeroCarousel() {
                     fill
                     priority={index === 0}
                     className="object-cover object-center"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 720px"
+                    sizes="(max-width: 768px) 100vw, 75vw"
                   />
                 </div>
               );
             })}
           </div>
 
-          {/* Conteúdo textual do lado direito */}
-          <div className="relative flex items-center">
-            <div
-              className="absolute right-0 top-1/2 -translate-y-1/2 hero-dot-grid opacity-80 pointer-events-none"
-              style={{ width: "50%", height: "50%" }}
-              aria-hidden
-            />
-            <div className="relative z-10 space-y-6 max-w-xl">
-              <span className="category-subtitle block text-xs tracking-[0.3em] uppercase text-plum-dark/60">
-                <b>Belezuura</b> Refúgio de Beleza
-              </span>
-
-              <h1 className="text-5xl sm:text-6xl lg:text-5xl font-semibold leading-tight">
-                Celebre a beleza
-                <br />
-                Feminina com a Belezuura
-              </h1>
-
-              {/* botão que usa next/link para navegação interna */}
-              <Link
-                href={SLIDES[currentSlide].buttonLink}
-                className="inline-block">
-                <span className="px-6 py-3 bg-plum-dark text-white text-sm uppercase tracking-wide font-semibold hover:bg-sage transition-colors">
-                  {SLIDES[currentSlide].buttonText}
+          {/* Conteúdo textual sobreposto */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full lg:w-[45%] z-20">
+            <div className="relative  backdrop-blur-sm p-8 lg:p-12 rounded-lg shadow-lg">
+              <div
+                className="absolute -left-10 top-1/2 -translate-y-1/2 hero-dot-grid opacity-40 pointer-events-none"
+                style={{ width: "120px", height: "120px" }}
+                aria-hidden
+              />
+              <div className="relative z-10 space-y-6">
+                <span className="category-subtitle block text-xs tracking-[0.3em] uppercase text-plum-dark/60">
+                  <b>Belezuura</b> Refúgio de Beleza
                 </span>
-              </Link>
+
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight text-black">
+                  Celebre a beleza
+                  <br />
+                  Feminina com a Belezuura
+                </h1>
+
+                {/* botão que usa next/link para navegação interna */}
+                <Link
+                  href={SLIDES[currentSlide].buttonLink}
+                  className="inline-block">
+                  <span className="px-6 py-3 bg-plum-dark text-white text-sm uppercase tracking-wide font-semibold hover:bg-sage transition-colors">
+                    {SLIDES[currentSlide].buttonText}
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Contador inferior esquerdo */}
-        <div className="absolute bottom-6 left-6 lg:left-2 text-3xl font-semibold text-black tracking-tight flex items-baseline gap-1">
+        {/* <div className="absolute bottom-6 left-6 lg:left-2 text-3xl font-semibold text-black tracking-tight flex items-baseline gap-1">
           <span>{currentSlide + 1}</span>
           <span className="text-base text-plum-dark/70">/{SLIDES.length}</span>
-        </div>
+        </div> */}
 
         {/* Navegação inferior direita (prev / next) */}
         <div className="absolute bottom-6 right-6 flex items-center gap-4">
