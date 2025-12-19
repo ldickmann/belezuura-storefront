@@ -22,7 +22,7 @@ const SLIDES: Slide[] = [
     buttonText: "Shop Now",
     buttonLink: "/shop",
     image: "/images/hero/hero-img-01.jpg",
-    bgColor: "bg-[#1abc9c]",
+    bgColor: "bg-rose-soft",
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ const SLIDES: Slide[] = [
     buttonText: "Explore",
     buttonLink: "/shop?category=cabelos",
     image: "/images/hero/hero-img-02.jpg",
-    bgColor: "bg-[#48384c]",
+    bgColor: "bg-sage",
   },
   {
     id: 3,
@@ -40,7 +40,7 @@ const SLIDES: Slide[] = [
     buttonText: "Descobrir",
     buttonLink: "/shop",
     image: "/images/hero/hero-img-03.jpg",
-    bgColor: "bg-[#8b7b8e]",
+    bgColor: "bg-plum-dark",
   },
 ];
 
@@ -67,14 +67,14 @@ export default function HeroCarousel() {
     <section className="first-screen relative w-full bg-white text-black">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10 lg:py-16 h-[80vh] lg:h-[85vh] relative">
         {/* Redes sociais (esquerda) */}
-        <div className="hidden lg:flex flex-col items-center gap-2 text-[12px] font-medium text-[#4a4a4a] absolute left-0 top-1/2 -translate-y-1/2 z-30 tracking-widest">
+        <div className="hidden lg:flex flex-col items-center gap-2 text-[12px] font-medium text-plum-dark/80 absolute left-0 top-1/2 -translate-y-1/2 z-30 tracking-widest">
           {SOCIAL_LINKS.map((social, idx) => (
             <div
               key={social.name}
               className="flex flex-col items-center gap-1">
               {idx !== 0 && (
                 <span
-                  className="h-4 w-px bg-[#b3b3b3]"
+                  className="h-4 w-px bg-sand/60"
                   aria-hidden
                 />
               )}
@@ -90,7 +90,7 @@ export default function HeroCarousel() {
 
         <div className="grid lg:grid-cols-[52%_48%] gap-10 h-full relative">
           {/* Área da imagem */}
-          <div className="relative rounded-2xl overflow-hidden shadow-sm bg-[#f8f8f8]">
+          <div className="relative rounded-2xl overflow-hidden shadow-sm bg-rose-soft/50">
             {SLIDES.map((slide, index) => {
               const isActive = index === currentSlide;
               return (
@@ -120,7 +120,7 @@ export default function HeroCarousel() {
               aria-hidden
             />
             <div className="relative z-10 space-y-6 max-w-xl">
-              <span className="category-subtitle block text-xs tracking-[0.3em] uppercase text-[#6d6d6d]">
+              <span className="category-subtitle block text-xs tracking-[0.3em] uppercase text-plum-dark/60">
                 <b>New</b> Collection
               </span>
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-tight">
@@ -131,7 +131,7 @@ export default function HeroCarousel() {
               <Link
                 href={SLIDES[currentSlide].buttonLink}
                 className="inline-block">
-                <span className="px-6 py-3 bg-black text-white text-sm uppercase tracking-wide font-semibold hover:bg-[#2a2a2a] transition-colors">
+                <span className="px-6 py-3 bg-plum-dark text-white text-sm uppercase tracking-wide font-semibold hover:bg-sage transition-colors">
                   {SLIDES[currentSlide].buttonText}
                 </span>
               </Link>
@@ -142,7 +142,7 @@ export default function HeroCarousel() {
         {/* Contador inferior esquerdo */}
         <div className="absolute bottom-6 left-6 lg:left-2 text-3xl font-semibold text-black tracking-tight flex items-baseline gap-1">
           <span>{currentSlide + 1}</span>
-          <span className="text-base text-[#555]">/{SLIDES.length}</span>
+          <span className="text-base text-plum-dark/70">/{SLIDES.length}</span>
         </div>
 
         {/* Navegação inferior direita */}
@@ -165,7 +165,7 @@ export default function HeroCarousel() {
         <div className="lg:hidden absolute bottom-4 left-0 right-0 flex items-center justify-center gap-4">
           <button
             onClick={prevSlide}
-            className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center bg-white/90">
+            className="w-10 h-10 rounded-full border border-plum-dark/30 flex items-center justify-center bg-white/90">
             <span className="block w-3 h-3 border-l border-b border-current -rotate-45" />
           </button>
           <div className="text-sm font-medium text-black bg-white/90 px-4 py-2 rounded-full shadow-sm">
@@ -173,7 +173,7 @@ export default function HeroCarousel() {
           </div>
           <button
             onClick={nextSlide}
-            className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center bg-white/90">
+            className="w-10 h-10 rounded-full border border-plum-dark/30 flex items-center justify-center bg-white/90">
             <span className="block w-3 h-3 border-r border-t border-current rotate-45" />
           </button>
         </div>
