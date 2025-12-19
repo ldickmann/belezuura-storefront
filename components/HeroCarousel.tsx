@@ -193,13 +193,13 @@ export default function HeroCarousel() {
             />
             <div className="relative z-10 space-y-6 max-w-xl">
               <span className="category-subtitle block text-xs tracking-[0.3em] uppercase text-plum-dark/60">
-                <b>New</b> Collection
+                <b>Belezuura</b> Refúgio de Beleza
               </span>
 
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-tight">
-                Meet New
+              <h1 className="text-5xl sm:text-6xl lg:text-5xl font-semibold leading-tight">
+                Celebre a beleza
                 <br />
-                Fashion Week
+                Feminina com a Belezuura
               </h1>
 
               {/* botão que usa next/link para navegação interna */}
