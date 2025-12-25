@@ -72,32 +72,32 @@ const SOCIAL_LINKS: {
   label: string;
   Icon: ComponentType<any>;
 }[] = [
-  {
-    id: "facebook",
-    href: "https://www.facebook.com/belezuura",
-    label: "Facebook",
-    Icon: SiFacebook,
-  },
-  { id: "x", href: "https://x.com/belezuura", label: "X", Icon: SiX },
-  {
-    id: "instagram",
-    href: "https://www.instagram.com/belezuurastore/",
-    label: "Instagram",
-    Icon: SiInstagram,
-  },
-  {
-    id: "pinterest",
-    href: "https://br.pinterest.com/belezuura/",
-    label: "Pinterest",
-    Icon: SiPinterest,
-  },
-  {
-    id: "tiktok",
-    href: "https://www.tiktok.com/@belezuuraoficial",
-    label: "TikTok",
-    Icon: SiTiktok,
-  },
-];
+    {
+      id: "facebook",
+      href: "https://www.facebook.com/belezuura",
+      label: "Facebook",
+      Icon: SiFacebook,
+    },
+    { id: "x", href: "https://x.com/belezuura", label: "X", Icon: SiX },
+    {
+      id: "instagram",
+      href: "https://www.instagram.com/belezuurastore/",
+      label: "Instagram",
+      Icon: SiInstagram,
+    },
+    {
+      id: "pinterest",
+      href: "https://br.pinterest.com/belezuura/",
+      label: "Pinterest",
+      Icon: SiPinterest,
+    },
+    {
+      id: "tiktok",
+      href: "https://www.tiktok.com/@belezuuraoficial",
+      label: "TikTok",
+      Icon: SiTiktok,
+    },
+  ];
 
 /* Componente principal exportado */
 export default function HeroCarousel() {
@@ -154,9 +154,6 @@ export default function HeroCarousel() {
                     aria-hidden="true"
                   />
                 </a>
-                <span className="tracking-[0.6em] text-[10px] uppercase">
-                  {social.label.slice(0, 2)}
-                </span>
               </div>
             ))}
           </div>
@@ -168,9 +165,8 @@ export default function HeroCarousel() {
                 return (
                   <div
                     key={slide.id}
-                    className={`main-slider__item ${
-                      isActive ? "is-active" : ""
-                    } absolute inset-0`}
+                    className={`main-slider__item ${isActive ? "is-active" : ""
+                      } absolute inset-0`}
                     aria-hidden={!isActive}>
                     <Image
                       src={slide.image}
@@ -219,12 +215,7 @@ export default function HeroCarousel() {
                 </div>
 
                 <div className="flex items-center justify-between text-black">
-                  <div className="flex items-baseline gap-1 text-3xl font-semibold">
-                    <span>{currentSlide + 1}</span>
-                    <span className="text-base text-black/50">
-                      /{SLIDES.length}
-                    </span>
-                  </div>
+
 
                   <div className="hidden sm:flex items-center gap-4">
                     <button
@@ -251,9 +242,7 @@ export default function HeroCarousel() {
                   aria-label="Anterior">
                   <span className="block w-3 h-3 border-l border-b border-current -rotate-45" />
                 </button>
-                <div className="text-xs font-semibold tracking-[0.4em] text-black bg-white/80 px-4 py-2 rounded-full shadow-sm">
-                  {currentSlide + 1}/{SLIDES.length}
-                </div>
+
                 <button
                   onClick={nextSlide}
                   className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center bg-white/90"
