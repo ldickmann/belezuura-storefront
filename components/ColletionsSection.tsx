@@ -95,7 +95,7 @@ const COLLECTIONS: Collection[] = [
  */
 export default function CollectionsSection() {
   return (
-    <section className="collection-block wrapper relative bg-white text-black">
+    <section className="collection-block wrapper relative text-plum-dark">
       <div className="collection-block__content">
         <div className="collections">
           {/* Topo - Contador de Produtos */}
@@ -108,7 +108,7 @@ export default function CollectionsSection() {
               />
 
               {/* Título com contador */}
-              <h3 className="collection-title text-black relative z-10">
+              <h3 className="collection-title text-plum-dark relative z-10">
                 <span className="collection-title__count">2587</span>
                 <span className="collection-title__plus">+</span>
                 <span className="collection-title__text">Products for you</span>
@@ -135,17 +135,17 @@ export default function CollectionsSection() {
                       <div className="season-sale__cell">
                         {/* Conteúdo com fundo translúcido */}
                         <div className="season-sale__content p-6 md:p-10 bg-white/10 backdrop-blur-sm rounded">
-                          <h4 className="season-sale__title text-2xl font-serif text-black">
+                          <h4 className="season-sale__title text-2xl font-serif text-white/90">
                             {col.title}
                           </h4>
                           {col.text && (
-                            <p className="season-sale__text mt-2 text-black">
+                            <p className="season-sale__text mt-2 text-white/80">
                               {col.text}
                             </p>
                           )}
                           <Link
                             href={col.href ?? "#"}
-                            className="season-sale__more read-more inline-block mt-4 text-black">
+                            className="season-sale__more read-more inline-block mt-4 text-white hover:text-white/80 transition-colors">
                             Shop now
                           </Link>
                         </div>
@@ -173,7 +173,7 @@ export default function CollectionsSection() {
                         aria-hidden="true"
                       />
                       {col.category && (
-                        <span className="collection__category block mt-2 text-black">
+                        <span className="collection__category block mt-2 text-plum-dark/80">
                           {col.category}
                         </span>
                       )}
@@ -185,13 +185,13 @@ export default function CollectionsSection() {
                         <div className="collection__content">
                           {/* Subtítulo */}
                           {col.subtitleText && (
-                            <span className="collection__subtitle category-subtitle block text-sm uppercase text-black">
+                            <span className="collection__subtitle category-subtitle block text-sm uppercase text-plum-dark/70">
                               <b>{col.subtitleBold}</b> {col.subtitleText}
                             </span>
                           )}
 
                           {/* Título da Coleção */}
-                          <h4 className="collection__title text-2xl md:text-3xl font-serif mt-2 text-black">
+                          <h4 className="collection__title text-2xl md:text-3xl font-serif mt-2 text-plum-dark">
                             {col.title}
                           </h4>
 
@@ -226,7 +226,7 @@ export default function CollectionsSection() {
               />
 
               {/* Título com contador */}
-              <h3 className="collection-title text-black relative z-10">
+              <h3 className="collection-title text-plum-dark relative z-10">
                 <span className="collection-title__count">5649</span>
                 <span className="collection-title__plus">+</span>
                 <span className="collection-title__text">

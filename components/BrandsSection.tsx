@@ -25,7 +25,7 @@ const BRANDS = [
 
 export default function BrandsSection() {
     return (
-        <section className="bg-black py-10 w-full overflow-hidden" aria-label="Brands">
+        <section className="py-10 w-full overflow-hidden" aria-label="Brands">
             <div className="container mx-auto px-4">
                 {/*
           Using a responsive grid/flex layout.
@@ -36,7 +36,7 @@ export default function BrandsSection() {
                     {BRANDS.map((brand, idx) => (
                         <span
                             key={idx}
-                            className={`text-white text-2xl lg:text-3xl whitespace-nowrap select-none ${brand.className}`}
+                            className={`text-plum-dark text-2xl lg:text-3xl whitespace-nowrap select-none ${brand.className}`}
                         >
                             {brand.name}
                         </span>

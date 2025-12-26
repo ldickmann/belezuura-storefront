@@ -109,21 +109,21 @@ export default function HeroCarousel() {
   const activeSlide = SLIDES[currentSlide];
 
   return (
-    <section className="relative w-full bg-white text-black overflow-hidden py-0 lg:py-20">
+    <section className="relative w-full text-plum-dark overflow-hidden py-0 lg:py-20">
       {/* Social Icons - Positioned at extreme left of section (Hidden on mobile for cleaner look or consistent) */}
       <div className="hidden lg:flex flex-col items-center gap-3 absolute left-4 top-1/2 -translate-y-1/2 z-30">
-        <div className="flex flex-col items-center gap-4 text-[11px] font-semibold text-black/60 tracking-[0.5em]">
+        <div className="flex flex-col items-center gap-4 text-[11px] font-semibold text-plum-dark/60 tracking-[0.5em]">
           {SOCIAL_LINKS.map((social, idx) => (
             <div key={social.id} className="flex flex-col items-center gap-2">
-              {idx !== 0 && <span className="h-8 w-px bg-black/10" aria-hidden />}
+              {idx !== 0 && <span className="h-8 w-px bg-plum-dark/10" aria-hidden />}
               <a
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="w-10 h-10 rounded-full border border-black/15 flex items-center justify-center bg-white/80 hover:bg-black/5 transition-colors focus:outline-none focus:ring-2 focus:ring-black/30"
+                className="w-10 h-10 rounded-full border border-plum-dark/15 flex items-center justify-center bg-white/80 hover:bg-plum-dark/5 transition-colors focus:outline-none focus:ring-2 focus:ring-plum-dark/30"
               >
-                <social.Icon className="w-4 h-4 text-black/70" />
+                <social.Icon className="w-4 h-4 text-plum-dark/70" />
               </a>
             </div>
           ))}
@@ -189,24 +189,24 @@ export default function HeroCarousel() {
               <div className="flex flex-col items-center lg:items-start space-y-4 lg:space-y-6 lg:pl-12">
 
                 {/* Label/Subtitle Kick */}
-                <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/80 lg:text-gray-500">
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/80 lg:text-plum-dark/60">
                   {activeSlide.subtitle.split('.')[0]}
                 </span>
 
                 {/* Title: Big on desktop, responsive on mobile */}
-                <h1 className="text-4xl sm:text-5xl xl:text-7xl font-bold leading-tight text-white lg:text-gray-900 drop-shadow-lg lg:drop-shadow-none">
+                <h1 className="text-4xl sm:text-5xl xl:text-7xl font-bold leading-tight text-white lg:text-plum-dark drop-shadow-lg lg:drop-shadow-none">
                   {activeSlide.title}
                 </h1>
 
                 {/* Description: HIDDEN ON MOBILE */}
-                <p className="hidden md:block text-sm sm:text-base text-gray-600 max-w-md leading-relaxed">
+                <p className="hidden md:block text-sm sm:text-base text-plum-dark/60 max-w-md leading-relaxed">
                   {activeSlide.subtitle}
                 </p>
 
                 <div className="flex items-center gap-6 pt-4">
                   <Link
                     href={activeSlide.buttonLink}
-                    className="inline-flex items-center justify-center px-8 py-3 lg:py-4 bg-white text-black lg:bg-black lg:text-white text-xs tracking-[0.2em] uppercase font-bold hover:bg-gray-100 lg:hover:bg-gray-800 transition-transform hover:-translate-y-1 shadow-lg border border-transparent lg:border-none"
+                    className="inline-flex items-center justify-center px-8 py-3 lg:py-4 bg-white text-plum-dark lg:bg-plum-dark lg:text-white text-xs tracking-[0.2em] uppercase font-bold hover:bg-rose-soft lg:hover:bg-plum-dark/90 transition-transform hover:-translate-y-1 shadow-lg border border-transparent lg:border-none"
                   >
                     {activeSlide.buttonText}
                   </Link>

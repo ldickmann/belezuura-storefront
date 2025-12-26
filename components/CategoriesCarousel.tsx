@@ -21,74 +21,102 @@ interface Category {
  */
 const CATEGORIES: Category[] = [
   {
-    id: "alfaiataria",
-    name: "Alfaiataria",
-    href: "/shop?category=alfaiataria",
-    image: "/images/categories/alfaiataria.jpg",
-    colorClass: "bg-[#f2d295]",
-  },
-  {
-    id: "fitness",
-    name: "Fitness",
-    href: "/shop?category=fitness",
-    image: "/images/categories/fitness.jpg",
-    colorClass: "bg-[#1abc9c]",
-  },
-  {
-    id: "cabelos",
-    name: "Cabelos",
-    href: "/shop?category=cabelos",
-    image: "/images/categories/cabelos.jpg",
-    colorClass: "bg-[#8b4513]",
-  },
-  {
-    id: "maquiagem",
-    name: "Maquiagem",
-    href: "/shop?category=maquiagem",
-    image: "/images/categories/maquiagem.jpg",
-    colorClass: "bg-[#ff6b9d]",
-  },
-  {
-    id: "praia",
-    name: "Praia",
-    href: "/shop?category=praia",
-    image: "/images/categories/praia.jpg",
-    colorClass: "bg-[#5dade2]",
-  },
-  {
     id: "acessorios",
-    name: "Acessórios",
+    name: "Acessórios Belezuura",
     href: "/shop?category=acessorios",
     image: "/images/categories/acessorios.jpg",
     colorClass: "bg-[#9b59b6]",
   },
   {
-    id: "skincare",
-    name: "Skincare",
-    href: "/shop?category=skincare",
+    id: "cabelos",
+    name: "Cabelos Belezuura",
+    href: "/shop?category=cabelos",
+    image: "/images/categories/cabelos.jpg",
+    colorClass: "bg-[#8b4513]",
+  },
+  {
+    id: "calcas",
+    name: "Calças Belezuura",
+    href: "/shop?category=calcas",
+    image: "/images/categories/calcas.jpg",
+    colorClass: "bg-[#34495e]",
+  },
+  {
+    id: "camisas",
+    name: "Camisas Belezuura",
+    href: "/shop?category=camisas",
+    image: "/images/categories/camisas.jpg",
+    colorClass: "bg-[#e67e22]",
+  },
+  {
+    id: "conjuntos",
+    name: "Conjuntos Belezuura",
+    href: "/shop?category=conjuntos",
+    image: "/images/categories/conjuntos.jpg",
+    colorClass: "bg-[#16a085]",
+  },
+  {
+    id: "fitness",
+    name: "Fitness Belezuura",
+    href: "/shop?category=fitness",
+    image: "/images/categories/fitness.jpg",
+    colorClass: "bg-[#1abc9c]",
+  },
+  {
+    id: "jaquetas",
+    name: "Jaquetas Belezuura",
+    href: "/shop?category=jaquetas",
+    image: "/images/categories/jaquetas.jpg",
+    colorClass: "bg-[#2c3e50]",
+  },
+  {
+    id: "jeans",
+    name: "Jeans Belezuura",
+    href: "/shop?category=jeans",
+    image: "/images/categories/jeans.jpg",
+    colorClass: "bg-[#2980b9]",
+  },
+  {
+    id: "lingerie",
+    name: "Lingerie Belezuura",
+    href: "/shop?category=lingerie",
+    image: "/images/categories/lingerie.jpg",
+    colorClass: "bg-[#e056fd]",
+  },
+  {
+    id: "maquiagem",
+    name: "Maquiagem Belezuura",
+    href: "/shop?category=maquiagem",
+    image: "/images/categories/maquiagem.jpg",
+    colorClass: "bg-[#ff6b9d]",
+  },
+  {
+    id: "pele",
+    name: "Pele Belezuura",
+    href: "/shop?category=pele",
     image: "/images/categories/skincare.jpg",
     colorClass: "bg-[#6a8e58]",
   },
   {
-    id: "perfumaria",
-    name: "Perfumaria",
-    href: "/shop?category=perfumaria",
-    image: "/images/categories/perfumaria.jpg",
-    colorClass: "bg-[#ff6347]",
+    id: "praia",
+    name: "Praia Belezuura",
+    href: "/shop?category=praia",
+    image: "/images/categories/praia.jpg",
+    colorClass: "bg-[#5dade2]",
   },
   {
-    id: "unhas",
-    name: "Unhas",
-    href: "/shop?category=unhas",
-    image: "/images/categories/unhas.jpg",
-    colorClass: "bg-[#dc143c]",
+    id: "shorts-saias",
+    name: "Shorts/Saias Belezuura",
+    href: "/shop?category=shorts-saias",
+    image: "/images/categories/shorts-saias.jpg",
+    colorClass: "bg-[#f1c40f]",
   },
   {
-    id: "bem-estar",
-    name: "Bem-Estar",
-    href: "/shop?category=bem-estar",
-    image: "/images/categories/bem-estar.jpg",
-    colorClass: "bg-[#d3ab91]",
+    id: "vestidos",
+    name: "Vestidos Belezuura",
+    href: "/shop?category=vestidos",
+    image: "/images/categories/vestidos.jpg",
+    colorClass: "bg-[#e74c3c]",
   },
 ];
 
@@ -359,7 +387,7 @@ export default function CategoriesCarousel() {
   }, [currentPosition]);
 
   return (
-    <section className="relative w-full bg-white py-8 sm:py-12 md:py-16 lg:py-20 overflow-hidden">
+    <section className="relative w-full py-8 sm:py-12 md:py-16 lg:py-20 overflow-hidden">
       {/* Gradiente decorativo - Mobile First */}
       <div className="absolute inset-0 bg-linear-to-b from-gold-warm/5 via-transparent to-transparent pointer-events-none" />
 
@@ -385,11 +413,10 @@ export default function CategoriesCarousel() {
             {[0, 1, 2].map((index) => (
               <span
                 key={index}
-                className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndicator
-                    ? "bg-gold-warm scale-125"
-                    : "bg-gray-300"
-                }`}
+                className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${index === activeIndicator
+                  ? "bg-gold-warm scale-125"
+                  : "bg-gray-300"
+                  }`}
                 aria-hidden="true"
               />
             ))}
@@ -399,9 +426,8 @@ export default function CategoriesCarousel() {
         {/* Container do Carrossel - Mobile First */}
         <div
           ref={containerRef}
-          className={`overflow-hidden py-3 sm:py-4 touch-pan-y ${
-            isDragging ? "cursor-grabbing" : "cursor-grab"
-          }`}
+          className={`overflow-hidden py-3 sm:py-4 touch-pan-y ${isDragging ? "cursor-grabbing" : "cursor-grab"
+            }`}
           onMouseDown={(e) => handleStart(e.clientX)}
           onMouseMove={(e) => isDragging && handleMove(e.clientX)}
           onMouseUp={handleEnd}
@@ -417,9 +443,8 @@ export default function CategoriesCarousel() {
           {/* Track de Categorias - Mobile First */}
           <div
             ref={trackRef}
-            className={`flex gap-4 sm:gap-5 md:gap-6 ${
-              isDragging ? "" : "transition-transform duration-300 ease-out"
-            }`}
+            className={`flex gap-4 sm:gap-5 md:gap-6 ${isDragging ? "" : "transition-transform duration-300 ease-out"
+              }`}
             style={{ willChange: "transform" }}>
             {infiniteCategories.map((category, index) => (
               <Link
