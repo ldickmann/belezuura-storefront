@@ -47,7 +47,6 @@ const PROMO_OFFERS = [
   { text: "10% OFF na sua primeira compra", coupon: "BELEZUURA10" },
 ];
 
-/** Links secundários exibidos na seção "Minha Conta" do drawer */
 const ACCOUNT_LINKS = [
   { label: "Meus Pedidos", href: "/pedidos", Icon: Package },
   { label: "Favoritos", href: "/favoritos", Icon: Heart },
@@ -105,44 +104,13 @@ function TopBar({ onDismiss }: { onDismiss: () => void }) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-function NavBar({ pathname }: { pathname: string }) {
-  return (
-    <div className="bg-white border-t border-sand/15">
-      <div className="container mx-auto px-3 sm:px-5 lg:px-8">
-        <nav
-          aria-label="Navegação principal"
-          className="flex items-center overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {NAV_LINKS.map(({ label, href }) => {
-            const isActive =
-              href === "/"
-                ? pathname === "/"
-                : pathname === href || pathname.startsWith(href + "/");
-            return (
-              <Link
-                key={href}
-                href={href}
-                aria-current={isActive ? "page" : undefined}
-                className={`whitespace-nowrap shrink-0
-                            px-3 sm:px-5 lg:px-6 py-2.5 sm:py-3
-                            text-xs sm:text-[13px] font-medium tracking-wide
-                            transition-colors border-b-2
-                            ${
-                              isActive
-                                ? "border-plum-dark text-plum-dark"
-                                : "border-transparent text-plum-dark/65 hover:text-plum-dark hover:border-sand"
-                            }`}>
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-
+/**
+ * Componente CategoriesBar
+ *
+ * Mega menu de categorias — visualmente separado do header principal
+ * por sombra direcional + fundo levemente tintado (sand/rose-soft).
+ * Comunica ao usuário que é uma camada de navegação distinta.
+ */
 function CategoriesBar({ pathname }: { pathname: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -154,8 +122,16 @@ function CategoriesBar({ pathname }: { pathname: string }) {
   }
 
   return (
-    <div className="border-t border-sand/20 bg-white">
+    <div
+      className="bg-white"
+      style={{
+        /* Sombra interna no topo (sublinha o border) + sombra para baixo (profundidade) */
+        boxShadow:
+          "inset 0 1px 0 rgba(211,171,145,0.45), 0 4px 14px -4px rgba(72,56,76,0.10)",
+        borderTop: "1px solid rgba(211,171,145,0.30)",
+      }}>
       <div className="relative max-w-7xl mx-auto">
+        {/* Seta esquerda */}
         <button
           onClick={() => scroll("left")}
           aria-label="Ver categorias anteriores"
@@ -165,6 +141,7 @@ function CategoriesBar({ pathname }: { pathname: string }) {
           <ChevronLeft size={14} />
         </button>
 
+        {/* Lista rolável */}
         <div
           ref={scrollRef}
           className="flex items-center overflow-x-auto px-2 sm:px-6
@@ -177,13 +154,13 @@ function CategoriesBar({ pathname }: { pathname: string }) {
                 key={href}
                 href={href}
                 aria-current={isActive ? "page" : undefined}
-                className={`whitespace-nowrap shrink-0 px-3 sm:px-4 py-2 sm:py-2.5
-                            text-[10px] sm:text-[11px] uppercase tracking-wider font-medium
+                className={`whitespace-nowrap shrink-0 px-3 sm:px-4 py-2.5 sm:py-3
+                            text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold
                             transition-colors border-b-2
                             ${
                               isActive
                                 ? "border-plum-dark text-plum-dark"
-                                : "border-transparent text-plum-dark/60 hover:text-plum-dark hover:border-sand"
+                                : "border-transparent text-plum-dark/55 hover:text-plum-dark hover:border-sand"
                             }`}>
                 {label}
               </Link>
@@ -191,6 +168,7 @@ function CategoriesBar({ pathname }: { pathname: string }) {
           })}
         </div>
 
+        {/* Seta direita */}
         <button
           onClick={() => scroll("right")}
           aria-label="Ver mais categorias"
@@ -206,6 +184,18 @@ function CategoriesBar({ pathname }: { pathname: string }) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * Componente Header
+ *
+ * Layout inspirado no print — TUDO em uma única barra horizontal:
+ *   [☰]  [Logo]  [Busca]  [Home · Loja · Alfaiataria · Maquiagem · Cosméticos]  [👤  🛍]
+ *
+ * E abaixo, o mega menu de categorias — visualmente separado por sombra e border.
+ *
+ * Mobile  (<768px):  [☰] [Logo] → → → [🔍] [🛍]
+ * Tablet  (768-1023px): [Logo] [Busca] → → → [👤] [🛍]   (nav no drawer)
+ * Desktop (1024px+): [Logo] [Busca] [Nav inline] [👤 🛍]
+ */
 export function Header() {
   const pathname = usePathname();
   const [showTopBar, setShowTopBar] = useState(true);
@@ -213,7 +203,6 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Scroll lock no body enquanto drawer está aberto
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
@@ -221,144 +210,199 @@ export function Header() {
     };
   }, [menuOpen]);
 
-  // Fechar com tecla Escape
   useEffect(() => {
     if (!menuOpen) return;
-    function handleKeyDown(e: KeyboardEvent) {
+    function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") setMenuOpen(false);
     }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-sand/20 shadow-sm">
+    <header className="sticky top-0 z-50 bg-white">
       {showTopBar && <TopBar onDismiss={() => setShowTopBar(false)} />}
 
-      {/* ── Main Header ─────────────────────────────────────────────── */}
-      <div className="container mx-auto px-3 sm:px-5 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20 gap-2 sm:gap-3 lg:gap-5">
-          {/* Hambúrguer */}
-          <button
-            onClick={() => setMenuOpen(true)}
-            aria-label="Abrir menu"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-drawer"
-            className="md:hidden flex items-center justify-center w-10 h-10 -ml-1
-                       text-plum-dark/70 hover:text-plum-dark transition-colors">
-            <Menu size={21} />
-          </button>
-
-          {/* Logo */}
-          <Link
-            href="/"
-            className="shrink-0"
-            aria-label="Página inicial Belezuura">
-            <Image
-              src="/logo/logo-belezuura-sem-fundo.jpg"
-              alt="Belezuura"
-              width={140}
-              height={52}
-              priority
-              className="h-15 sm:h-10 lg:h-16 w-auto object-contain"
-            />
-          </Link>
-
-          {/* Busca — tablet/desktop */}
-          <div className="hidden md:flex flex-1 min-w-0 max-w-65 lg:max-w-xl mx-3 lg:mx-6">
-            <div className="flex w-full items-center border border-sand/40 rounded-full overflow-hidden bg-rose-soft/20 focus-within:border-plum-dark/40 transition-colors">
-              <input
-                type="search"
-                placeholder="O que você procura hoje?"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 min-w-0 bg-transparent px-4 lg:px-5 py-2 lg:py-2.5 text-sm text-plum-dark placeholder:text-plum-dark/40 focus:outline-none"
-              />
-              <button
-                aria-label="Buscar"
-                className="shrink-0 px-3 lg:px-4 py-2 lg:py-2.5 text-plum-dark/60 hover:text-plum-dark transition-colors">
-                <Search size={15} />
-              </button>
-            </div>
-          </div>
-
-          {/* Ações direita */}
-          <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 lg:gap-4">
+      {/* ═══════════════════════════════════════════════════════════════
+          Barra principal — logo · busca · nav · ícones numa única linha
+          Separada do mega menu por border-b mais pronunciada
+      ═══════════════════════════════════════════════════════════════ */}
+      <div
+        className="bg-white"
+        style={{ borderBottom: "1px solid rgba(211,171,145,0.25)" }}>
+        <div className="container mx-auto px-3 sm:px-5 lg:px-8">
+          {/* ── Linha principal — items-stretch para border-b dos nav tabs ── */}
+          <div className="flex items-stretch h-14 lg:h-16 gap-2 sm:gap-3 lg:gap-4">
+            {/* Hambúrguer — mobile only */}
             <button
-              onClick={() => setSearchOpen((p) => !p)}
-              aria-label="Abrir busca"
-              className="md:hidden flex items-center justify-center w-10 h-10 text-plum-dark/70 hover:text-plum-dark transition-colors">
-              <Search size={19} />
+              onClick={() => setMenuOpen(true)}
+              aria-label="Abrir menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-drawer"
+              className="md:hidden self-center flex items-center justify-center
+                         w-10 h-10 -ml-1 text-plum-dark/70 hover:text-plum-dark transition-colors">
+              <Menu size={21} />
             </button>
 
+            {/* Logo — menor, alinhado ao centro vertical */}
             <Link
-              href="/conta"
-              aria-label="Minha conta"
-              className="hidden md:flex items-center gap-1.5 lg:gap-2 text-plum-dark/70 hover:text-plum-dark transition-colors group min-w-11 min-h-11 justify-center lg:justify-start">
-              <User
-                size={18}
-                className="shrink-0"
+              href="/"
+              className="shrink-0 self-center"
+              aria-label="Página inicial Belezuura">
+              <Image
+                src="/logo/logo-belezuura-sem-fundo.jpg"
+                alt="Belezuura"
+                width={120}
+                height={44}
+                priority
+                className="h-8 sm:h-9 lg:h-10 w-auto object-contain"
               />
-              <span className="hidden lg:flex flex-col leading-tight">
-                <span className="text-[10px] text-plum-dark/50 group-hover:text-plum-dark/70 transition-colors">
-                  Olá! Entrar na
-                </span>
-                <span className="text-xs font-semibold tracking-wide">
-                  Minha Conta
-                </span>
-              </span>
             </Link>
 
-            <Link
-              href="/carrinho"
-              aria-label="Sacola de compras"
-              className="flex items-center gap-1.5 lg:gap-2 text-plum-dark/70 hover:text-plum-dark transition-colors group p-2 md:p-0 md:min-w-11 md:min-h-11 md:justify-center lg:justify-start">
-              <ShoppingBag
-                size={19}
-                className="shrink-0"
-              />
-              <span className="hidden lg:flex flex-col leading-tight">
-                <span className="text-[10px] text-plum-dark/50 group-hover:text-plum-dark/70 transition-colors">
-                  Sua
-                </span>
-                <span className="text-xs font-semibold tracking-wide">
-                  Sacola
-                </span>
-              </span>
-            </Link>
-          </div>
-        </div>
+            {/* ── Centro: busca + nav links (md+) ─────────────────────── */}
+            <div className="hidden md:flex flex-1 items-stretch min-w-0 gap-0">
+              {/* Input de busca — menor, centralizado verticalmente */}
+              <div className="self-center w-full max-w-60 lg:max-w-85 mr-2 lg:mr-4 shrink-0">
+                <div
+                  className="flex items-center border border-sand/35 rounded-full
+                             overflow-hidden bg-rose-soft/15
+                             focus-within:border-plum-dark/35 transition-colors">
+                  <input
+                    type="search"
+                    placeholder="O que você procura?"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="flex-1 min-w-0 bg-transparent px-3.5 py-2.5
+                               text-[13px] text-plum-dark
+                               placeholder:text-plum-dark/35 focus:outline-none"
+                  />
+                  <button
+                    aria-label="Buscar"
+                    className="shrink-0 px-3 py-2.5 text-plum-dark/45 hover:text-plum-dark transition-colors">
+                    <Search size={14} />
+                  </button>
+                </div>
+              </div>
 
-        {/* Busca expandida — mobile */}
-        {searchOpen && (
-          <div className="md:hidden pb-3">
-            <div className="flex items-center border border-sand/40 rounded-full overflow-hidden bg-rose-soft/20 focus-within:border-plum-dark/40 transition-colors">
-              <input
-                type="search"
-                placeholder="O que você procura hoje?"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                autoFocus
-                className="flex-1 bg-transparent px-4 py-2.5 text-sm text-plum-dark placeholder:text-plum-dark/40 focus:outline-none"
-              />
+              {/* Nav links — desktop (lg+), alinhados à base do header via self-stretch
+                  O border-b-2 activo "encosta" na base da barra, criando tab indicator */}
+              <nav
+                aria-label="Navegação principal"
+                className="hidden lg:flex items-stretch">
+                {NAV_LINKS.map(({ label, href }) => {
+                  const isActive =
+                    href === "/"
+                      ? pathname === "/"
+                      : pathname === href || pathname.startsWith(href + "/");
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`self-stretch flex items-center px-3.5 xl:px-4
+                                  text-[13px] font-medium tracking-wide whitespace-nowrap
+                                  transition-colors border-b-2
+                                  ${
+                                    isActive
+                                      ? "border-plum-dark text-plum-dark"
+                                      : "border-transparent text-plum-dark/60 hover:text-plum-dark hover:border-sand/70"
+                                  }`}>
+                      {label}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* ── Ícones — sempre visíveis, agrupados à direita ──────── */}
+            <div className="flex items-center gap-0.5 lg:gap-1 ml-auto md:ml-0 shrink-0">
+              {/* Busca — apenas mobile */}
               <button
-                aria-label="Buscar"
-                className="px-3 py-2.5 text-plum-dark/60 hover:text-plum-dark transition-colors">
-                <Search size={15} />
+                onClick={() => setSearchOpen((p) => !p)}
+                aria-label="Abrir busca"
+                className="md:hidden flex items-center justify-center w-10 h-10
+                           text-plum-dark/70 hover:text-plum-dark transition-colors">
+                <Search size={19} />
               </button>
+
+              {/* Ícone de conta */}
+              <Link
+                href="/conta"
+                aria-label="Minha conta"
+                className="hidden md:flex items-center gap-1.5
+                           text-plum-dark/65 hover:text-plum-dark transition-colors group
+                           px-2.5 h-full">
+                <User
+                  size={18}
+                  className="shrink-0"
+                />
+                <span className="hidden xl:flex flex-col leading-tight">
+                  <span className="text-[10px] text-plum-dark/40 group-hover:text-plum-dark/60 transition-colors">
+                    Olá! Entrar na
+                  </span>
+                  <span className="text-xs font-semibold tracking-wide">
+                    Minha Conta
+                  </span>
+                </span>
+              </Link>
+
+              {/* Ícone de sacola */}
+              <Link
+                href="/carrinho"
+                aria-label="Sacola de compras"
+                className="flex items-center gap-1.5
+                           text-plum-dark/65 hover:text-plum-dark transition-colors group
+                           px-2 md:px-2.5 h-full">
+                <ShoppingBag
+                  size={19}
+                  className="shrink-0"
+                />
+                <span className="hidden xl:flex flex-col leading-tight">
+                  <span className="text-[10px] text-plum-dark/40 group-hover:text-plum-dark/60 transition-colors">
+                    Sua
+                  </span>
+                  <span className="text-xs font-semibold tracking-wide">
+                    Sacola
+                  </span>
+                </span>
+              </Link>
             </div>
           </div>
-        )}
+
+          {/* Busca expandida — mobile */}
+          {searchOpen && (
+            <div className="md:hidden pb-3">
+              <div
+                className="flex items-center border border-sand/40 rounded-full
+                           overflow-hidden bg-rose-soft/20
+                           focus-within:border-plum-dark/40 transition-colors">
+                <input
+                  type="search"
+                  placeholder="O que você procura hoje?"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                  className="flex-1 bg-transparent px-4 py-2.5 text-sm
+                             text-plum-dark placeholder:text-plum-dark/40 focus:outline-none"
+                />
+                <button
+                  aria-label="Buscar"
+                  className="px-3 py-2.5 text-plum-dark/60 hover:text-plum-dark transition-colors">
+                  <Search size={15} />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-      <NavBar pathname={pathname} />
+      {/* ═══════════════════════════════════════════════════════════════
+          Mega menu de categorias
+          Shadow própria + border diferenciado → claramente outra seção
+      ═══════════════════════════════════════════════════════════════ */}
       <CategoriesBar pathname={pathname} />
 
-      {/* ── Overlay ─────────────────────────────────────────────────── */}
-      {/*
-        Sempre renderizado — visibilidade controlada via opacity + pointer-events
-        para que a transição de saída funcione corretamente.
-      */}
+      {/* ── Overlay ───────────────────────────────────────────────── */}
       <div
         onClick={() => setMenuOpen(false)}
         aria-hidden="true"
@@ -367,42 +411,37 @@ export function Header() {
                     ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       />
 
-      {/* ── Drawer mobile ───────────────────────────────────────────── */}
-      {/*
-        Slide-in da esquerda via translate-x com easing iOS-like.
-        Sempre no DOM para que a animação de saída seja visível.
-      */}
+      {/* ── Drawer mobile ─────────────────────────────────────────── */}
       <div
         id="mobile-drawer"
         role="dialog"
         aria-modal="true"
         aria-label="Menu de navegação"
         className={`fixed top-0 left-0 h-full z-50 flex flex-col bg-white
-                    w-75 sm:w-85
+                    w-[300px] sm:w-[340px]
                     shadow-[4px_0_40px_-8px_rgba(0,0,0,0.18)]
                     transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]
                     ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        {/* ── Seção 1: Cabeçalho do drawer ────────────────────────── */}
+        {/* Cabeçalho do drawer */}
         <div className="flex items-center justify-between px-5 h-16 border-b border-sand/20 shrink-0">
           <Image
             src="/logo/logo-belezuura-sem-fundo.jpg"
             alt="Belezuura"
             width={100}
             height={38}
-            className="h-16 w-auto object-contain"
+            className="h-8 w-auto object-contain"
           />
           <button
             onClick={() => setMenuOpen(false)}
             aria-label="Fechar menu"
             className="w-9 h-9 flex items-center justify-center rounded-full
                        bg-sand/20 text-plum-dark/50
-                       hover:bg-sand/40 hover:text-plum-dark
-                       transition-colors duration-150">
+                       hover:bg-sand/40 hover:text-plum-dark transition-colors duration-150">
             <X size={16} />
           </button>
         </div>
 
-        {/* ── Seção 2: Botões de CTA ──────────────────────────────── */}
+        {/* Botões CTA */}
         <div className="flex gap-2.5 px-5 py-4 border-b border-sand/15 shrink-0">
           <Link
             href="/conta/entrar"
@@ -424,9 +463,9 @@ export function Header() {
           </Link>
         </div>
 
-        {/* ── Conteúdo rolável ────────────────────────────────────── */}
+        {/* Conteúdo rolável */}
         <div className="flex-1 overflow-y-auto overscroll-contain">
-          {/* Seção: Menu principal */}
+          {/* Menu principal */}
           <div className="pt-5 pb-1">
             <p className="px-5 pb-2.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-plum-dark/35">
               Menu
@@ -445,14 +484,10 @@ export function Header() {
                       aria-current={isActive ? "page" : undefined}
                       className={`flex items-center justify-between px-5 h-14
                                   transition-colors duration-150 group
-                                  ${isActive ? "bg-plum-dark/4" : "hover:bg-sand/20"}`}>
+                                  ${isActive ? "bg-plum-dark/[0.04]" : "hover:bg-sand/20"}`}>
                       <span
                         className={`text-[15px] tracking-[0.01em]
-                                        ${
-                                          isActive
-                                            ? "font-semibold text-plum-dark"
-                                            : "font-medium text-plum-dark/80"
-                                        }`}>
+                                        ${isActive ? "font-semibold text-plum-dark" : "font-medium text-plum-dark/80"}`}>
                         {label}
                       </span>
                       <ChevronRight
@@ -465,7 +500,7 @@ export function Header() {
                 );
               })}
 
-              {/* Item destaque — Outlet */}
+              {/* Outlet destaque */}
               <li>
                 <Link
                   href="/outlet"
@@ -474,8 +509,7 @@ export function Header() {
                              hover:bg-sand/20 transition-colors duration-150 group">
                   <span className="flex items-center gap-3">
                     <span
-                      className="bg-gold-warm text-plum-dark
-                                     px-2.5 py-1.25 rounded-lg
+                      className="bg-gold-warm text-plum-dark px-2.5 py-[5px] rounded-lg
                                      text-[11px] font-extrabold tracking-wide uppercase leading-none">
                       OUTLET
                     </span>
@@ -492,10 +526,9 @@ export function Header() {
             </ul>
           </div>
 
-          {/* Divisor */}
           <div className="mx-5 my-2 h-px bg-sand/25" />
 
-          {/* Seção: Categorias */}
+          {/* Categorias */}
           <div className="pt-4 pb-1">
             <p className="px-5 pb-2.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-plum-dark/35">
               Categorias
@@ -515,11 +548,7 @@ export function Header() {
                                   ${isActive ? "bg-gold-warm/10" : "hover:bg-sand/20"}`}>
                       <span
                         className={`text-[14px]
-                                        ${
-                                          isActive
-                                            ? "font-semibold text-plum-dark"
-                                            : "font-medium text-plum-dark/65"
-                                        }`}>
+                                        ${isActive ? "font-semibold text-plum-dark" : "font-medium text-plum-dark/65"}`}>
                         {label}
                       </span>
                       <ChevronRight
@@ -534,10 +563,9 @@ export function Header() {
             </ul>
           </div>
 
-          {/* Divisor */}
           <div className="mx-5 my-2 h-px bg-sand/25" />
 
-          {/* Seção: Minha Conta */}
+          {/* Minha Conta */}
           <div className="pt-4 pb-10">
             <p className="px-5 pb-2.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-plum-dark/35">
               Minha Conta
