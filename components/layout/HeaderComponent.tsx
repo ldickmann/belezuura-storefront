@@ -90,7 +90,7 @@ function TopBar({ onDismiss }: { onDismiss: () => void }) {
   return (
     <div
       className="bg-plum-dark text-rose-soft text-[11px] sm:text-xs py-2 px-4
-                 flex items-center justify-center relative overflow-hidden min-h-[32px]"
+                 flex items-center justify-center relative overflow-hidden min-h-8"
       style={{ perspective: "600px" }}>
       {/* Conteúdo animado — flip no eixo X */}
       <div
@@ -137,7 +137,6 @@ function TopBar({ onDismiss }: { onDismiss: () => void }) {
 function CategoriesBar({ pathname }: { pathname: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  /** Rola a lista de categorias programaticamente (setas de desktop) */
   function scroll(direction: "left" | "right") {
     scrollRef.current?.scrollBy({
       left: direction === "left" ? -240 : 240,
@@ -146,58 +145,62 @@ function CategoriesBar({ pathname }: { pathname: string }) {
   }
 
   return (
-    <div className="relative border-t border-sand/20 bg-white">
-      {/* Seta esquerda — apenas desktop (pointer device) */}
-      <button
-        onClick={() => scroll("left")}
-        aria-label="Ver categorias anteriores"
-        className="hidden sm:flex absolute left-0 top-0 h-full px-1.5 items-center z-10
-                   bg-gradient-to-r from-white via-white/80 to-transparent
-                   text-plum-dark/40 hover:text-plum-dark transition-colors">
-        <ChevronLeft size={14} />
-      </button>
+    <div className="border-t border-sand/20 bg-white">
+      {/* Container centralizado — max 1280px. Overflow → setas nos extremos */}
+      <div className="relative max-w-7xl mx-auto">
+        {/* Seta esquerda — fica na borda esquerda do container 1280px */}
+        <button
+          onClick={() => scroll("left")}
+          aria-label="Ver categorias anteriores"
+          className="hidden sm:flex absolute left-0 top-0 h-full px-1.5 items-center z-10
+                     bg-linear-to-r from-white via-white/80 to-transparent
+                     text-plum-dark/40 hover:text-plum-dark transition-colors">
+          <ChevronLeft size={14} />
+        </button>
 
-      {/* Lista horizontalmente rolável — scrollbar oculta em todos os browsers */}
-      <div
-        ref={scrollRef}
-        className="flex items-center overflow-x-auto
-                   px-2 sm:px-6
-                   [&::-webkit-scrollbar]:hidden
-                   [-ms-overflow-style:none]
-                   [scrollbar-width:none]">
-        {CATEGORIES.map(({ label, href }) => {
-          const isActive = pathname === href || pathname.startsWith(href + "/");
-          return (
-            <Link
-              key={href}
-              href={href}
-              aria-current={isActive ? "page" : undefined}
-              className={`whitespace-nowrap shrink-0
-                          px-3 sm:px-4
-                          py-2 sm:py-2.5
-                          text-[10px] sm:text-[11px]
-                          uppercase tracking-wider font-medium
-                          transition-colors border-b-2
-                          ${
-                            isActive
-                              ? "border-plum-dark text-plum-dark"
-                              : "border-transparent text-plum-dark/60 hover:text-plum-dark hover:border-sand"
-                          }`}>
-              {label}
-            </Link>
-          );
-        })}
+        {/* Lista rolável */}
+        <div
+          ref={scrollRef}
+          className="flex items-center overflow-x-auto
+                     px-2 sm:px-6
+                     [&::-webkit-scrollbar]:hidden
+                     [-ms-overflow-style:none]
+                     [scrollbar-width:none]">
+          {CATEGORIES.map(({ label, href }) => {
+            const isActive =
+              pathname === href || pathname.startsWith(href + "/");
+            return (
+              <Link
+                key={href}
+                href={href}
+                aria-current={isActive ? "page" : undefined}
+                className={`whitespace-nowrap shrink-0
+                            px-3 sm:px-4
+                            py-2 sm:py-2.5
+                            text-[10px] sm:text-[11px]
+                            uppercase tracking-wider font-medium
+                            transition-colors border-b-2
+                            ${
+                              isActive
+                                ? "border-plum-dark text-plum-dark"
+                                : "border-transparent text-plum-dark/60 hover:text-plum-dark hover:border-sand"
+                            }`}>
+                {label}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Seta direita — fica na borda direita do container 1280px */}
+        <button
+          onClick={() => scroll("right")}
+          aria-label="Ver mais categorias"
+          className="hidden sm:flex absolute right-0 top-0 h-full px-1.5 items-center z-10
+                     bg-linear-to-l from-white via-white/80 to-transparent
+                     text-plum-dark/40 hover:text-plum-dark transition-colors">
+          <ChevronRight size={14} />
+        </button>
       </div>
-
-      {/* Seta direita — apenas desktop */}
-      <button
-        onClick={() => scroll("right")}
-        aria-label="Ver mais categorias"
-        className="hidden sm:flex absolute right-0 top-0 h-full px-1.5 items-center z-10
-                   bg-gradient-to-l from-white via-white/80 to-transparent
-                   text-plum-dark/40 hover:text-plum-dark transition-colors">
-        <ChevronRight size={14} />
-      </button>
     </div>
   );
 }
@@ -267,7 +270,7 @@ export function Header() {
               compacto no tablet, amplo no desktop */}
           <div
             className="hidden md:flex flex-1 min-w-0
-                          max-w-[260px] lg:max-w-xl
+                          max-w-65 lg:max-w-xl
                           mx-3 lg:mx-6">
             <div
               className="flex w-full items-center
@@ -310,7 +313,7 @@ export function Header() {
               aria-label="Minha conta"
               className="hidden md:flex items-center gap-1.5 lg:gap-2
                          text-plum-dark/70 hover:text-plum-dark transition-colors group
-                         min-w-[44px] min-h-[44px] justify-center lg:justify-start">
+                         min-w-11 min-h-11 justify-center lg:justify-start">
               <User
                 size={18}
                 className="shrink-0"
@@ -334,7 +337,7 @@ export function Header() {
               aria-label="Sacola de compras"
               className="flex items-center gap-1.5 lg:gap-2
                          text-plum-dark/70 hover:text-plum-dark transition-colors group
-                         p-2 md:p-0 md:min-w-[44px] md:min-h-[44px]
+                         p-2 md:p-0 md:min-w-11 md:min-h-11
                          md:justify-center lg:justify-start">
               <ShoppingBag
                 size={19}
@@ -399,7 +402,7 @@ export function Header() {
             aria-modal="true"
             aria-label="Menu de navegação"
             className="fixed top-0 left-0 h-full z-50 flex flex-col bg-white shadow-2xl
-                       w-[280px] sm:w-80">
+                       w-70 sm:w-80">
             {/* Cabeçalho do drawer */}
             <div
               className="flex items-center justify-between
