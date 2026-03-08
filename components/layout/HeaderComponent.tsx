@@ -327,34 +327,6 @@ export function Header() {
         )}
       </div>
 
-      {/* Barra de navegação principal — apenas desktop */}
-      <nav
-        aria-label="Navegação principal"
-        className="hidden md:block border-t border-sand/20">
-        <div className="container mx-auto px-4">
-          <ul className="flex items-center">
-            {NAV_LINKS.map(({ label, href }) => {
-              const isActive =
-                pathname === href || pathname.startsWith(href + "/");
-              return (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    aria-current={isActive ? "page" : undefined}
-                    className={`block px-5 py-3 text-xs uppercase tracking-widest font-medium transition-colors border-b-2 ${
-                      isActive
-                        ? "border-plum-dark text-plum-dark"
-                        : "border-transparent text-plum-dark/70 hover:text-plum-dark hover:border-sand"
-                    }`}>
-                    {label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </nav>
-
       {/* Barra de categorias de produto rolável — apenas desktop */}
       <div className="hidden md:block">
         <CategoriesBar pathname={pathname} />
