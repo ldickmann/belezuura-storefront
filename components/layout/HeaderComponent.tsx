@@ -378,7 +378,7 @@ export function Header() {
         aria-modal="true"
         aria-label="Menu de navegação"
         className={`fixed top-0 left-0 h-full z-50 flex flex-col bg-white
-                    w-[300px] sm:w-[340px]
+                    w-75 sm:w-85
                     shadow-[4px_0_40px_-8px_rgba(0,0,0,0.18)]
                     transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]
                     ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}>
@@ -445,7 +445,7 @@ export function Header() {
                       aria-current={isActive ? "page" : undefined}
                       className={`flex items-center justify-between px-5 h-14
                                   transition-colors duration-150 group
-                                  ${isActive ? "bg-plum-dark/[0.04]" : "hover:bg-sand/20"}`}>
+                                  ${isActive ? "bg-plum-dark/4" : "hover:bg-sand/20"}`}>
                       <span
                         className={`text-[15px] tracking-[0.01em]
                                         ${
@@ -475,7 +475,7 @@ export function Header() {
                   <span className="flex items-center gap-3">
                     <span
                       className="bg-gold-warm text-plum-dark
-                                     px-2.5 py-[5px] rounded-lg
+                                     px-2.5 py-1.25 rounded-lg
                                      text-[11px] font-extrabold tracking-wide uppercase leading-none">
                       OUTLET
                     </span>
