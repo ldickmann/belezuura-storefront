@@ -67,7 +67,7 @@ const COLLECTIONS: Collection[] = [
   },
   {
     id: "c3",
-    bg: "/images/collections-image_4.jpg",
+    bg: "/images/collections-image_3.jpg",
     category: "dresses",
     subtitleBold: "women",
     subtitleText: "collection",

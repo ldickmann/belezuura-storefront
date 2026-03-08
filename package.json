@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@wix/contacts": "^1.0.27",
     "@wix/ecom": "^1.0.1539",
     "@wix/sdk": "^1.17.7",
     "@wix/stores": "^1.0.586",
