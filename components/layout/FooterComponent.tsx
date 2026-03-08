@@ -3,15 +3,12 @@ import Link from "next/link";
 import { Mail, MapPin } from "lucide-react";
 import {
   FaFacebookF,
-  FaTwitter,
   FaInstagram,
-  FaLinkedinIn,
-  FaYoutube,
-  FaTelegramPlane,
   FaPinterestP,
   FaTiktok,
-  FaWhatsapp,
+  // FaWhatsapp,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 /**
  * Links de navegação da seção Home.
@@ -38,6 +35,14 @@ const NAV_POLITICAS = [
   { label: "Declaração de Acessibilidade", href: "/acessibilidade" },
   { label: "Política de Envio", href: "/politica-envio" },
   { label: "Política de Reembolso", href: "/politica-reembolso" },
+  {
+    label: "Política de Privacidade",
+    href: "https://www.belezuura.com.br/pol%C3%ADtica-de-privacidade",
+  },
+  {
+    label: "Termos e Condições",
+    href: "https://www.belezuura.com.br/termos-e-condicoes",
+  },
 ];
 
 /**
@@ -45,21 +50,34 @@ const NAV_POLITICAS = [
  * Adicione ou remova entradas aqui sem alterar o JSX.
  */
 const REDES_SOCIAIS = [
-  { label: "Facebook", href: "#", Icon: FaFacebookF },
-  { label: "Twitter", href: "#", Icon: FaTwitter },
-  { label: "Instagram", href: "#", Icon: FaInstagram },
-  { label: "LinkedIn", href: "#", Icon: FaLinkedinIn },
-  { label: "YouTube", href: "#", Icon: FaYoutube },
-  { label: "Telegram", href: "#", Icon: FaTelegramPlane },
-  { label: "Pinterest", href: "#", Icon: FaPinterestP },
-  { label: "TikTok", href: "#", Icon: FaTiktok },
-  { label: "WhatsApp", href: "#", Icon: FaWhatsapp },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/belezuurastore",
+    Icon: FaInstagram,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/belezuura",
+    Icon: FaFacebookF,
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@belezuuraoficial",
+    Icon: FaTiktok,
+  },
+  {
+    label: "Pinterest",
+    href: "https://br.pinterest.com/belezuura",
+    Icon: FaPinterestP,
+  },
+  { label: "X", href: "https://x.com/Belezuura", Icon: FaXTwitter },
 ];
 
 /**
  * Componente auxiliar NavList
  *
  * Renderiza uma lista de links de navegação com estilo padrão do footer.
+ * Links externos (href iniciando com "http") abrem em nova aba com segurança.
  * Reutilizado em todas as colunas de navegação.
  *
  * @param items - Array de objetos { label, href }
@@ -68,15 +86,22 @@ const REDES_SOCIAIS = [
 function NavList({ items }: { items: { label: string; href: string }[] }) {
   return (
     <ul className="flex flex-col gap-3 text-sm text-rose-soft/60">
-      {items.map(({ label, href }) => (
-        <li key={href}>
-          <Link
-            href={href}
-            className="hover:text-gold-warm transition-colors">
-            {label}
-          </Link>
-        </li>
-      ))}
+      {items.map(({ label, href }) => {
+        const isExternal = href.startsWith("http");
+        return (
+          <li key={href}>
+            <Link
+              href={href}
+              className="hover:text-gold-warm transition-colors"
+              {...(isExternal && {
+                target: "_blank",
+                rel: "noopener noreferrer",
+              })}>
+              {label}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -98,7 +123,7 @@ function NavList({ items }: { items: { label: string; href: string }[] }) {
 export function Footer() {
   return (
     <footer className="bg-plum-dark text-rose-soft">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-[149px] pt-[50px]">
+      <div className="max-w-360 mx-auto px-6 md:px-37.25 pt-12.5">
         {/* Grade principal: Logo | Home+Empresa | Políticas | Contato | Newsletter */}
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_1fr_1fr_280px] gap-10">
           {/* Identidade da marca */}
@@ -110,9 +135,8 @@ export function Footer() {
               height={60}
               className="object-contain"
             />
-            <p className="text-sm leading-relaxed text-rose-soft/60 max-w-[200px]">
-              Elegância atemporal para mulheres que valorizam sofisticação e
-              qualidade.
+            <p className="text-sm leading-relaxed text-rose-soft/60 max-w-50">
+              Mais que uma loja, é o seu refúgio de beleza e bem-estar
             </p>
           </div>
 
