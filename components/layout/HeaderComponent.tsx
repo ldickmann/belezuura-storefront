@@ -1,16 +1,28 @@
 import Link from "next/link";
 
+/**
+ * Componente Header
+ *
+ * Cabeçalho sticky principal do site com:
+ * - Logo da marca
+ * - Menu de navegação responsivo
+ * - Ícone do carrinho de compras
+ *
+ * @returns {JSX.Element} Cabeçalho do site
+ */
 export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-sand/20">
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo da Marca */}
           <Link
             href="/"
             className="text-2xl md:text-3xl text-plum-dark tracking-wide font-serif">
             Belezuura
           </Link>
 
+          {/* Menu de Navegação Principal (apenas desktop) */}
           <ul className="hidden md:flex items-center gap-8">
             {["Alfaiataria", "Cosméticos", "Coleções", "Sobre"].map((item) => (
               <li key={item}>
@@ -26,7 +38,9 @@ export function Header() {
             ))}
           </ul>
 
+          {/* Ações do Header */}
           <div className="flex items-center gap-4">
+            {/* Ícone do Carrinho */}
             <Link
               href="/carrinho"
               aria-label="Carrinho"

@@ -1,35 +1,27 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getProducts } from "@/lib/services/products";
+import HeroCarousel from "@/components/HeroCarousel";
+import BrandsSection from "@/components/BrandsSection";
+import CategoriesCarousel from "@/components/CategoriesCarousel";
+import CollectionsSection from "@/components/ColletionsSection";
 
 export default async function Home() {
   const products = await getProducts(4);
 
   return (
     <>
-      {/* Hero */}
-      <section className="bg-rose-soft py-20 md:py-32">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl text-plum-dark mb-6 font-serif">
-            Elegância que <span className="text-sage">Transcende</span> o Tempo
-          </h1>
-          <p className="text-plum-dark/70 text-lg max-w-2xl mx-auto mb-8">
-            Descubra peças exclusivas de alfaiataria e cosméticos premium.
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link
-              href="/alfaiataria"
-              className="px-8 py-3 bg-plum-dark text-rose-soft rounded uppercase text-sm tracking-wider hover:bg-plum-dark/90 transition-colors">
-              Ver Alfaiataria
-            </Link>
-            <Link
-              href="/cosmeticos"
-              className="px-8 py-3 border border-plum-dark text-plum-dark rounded uppercase text-sm tracking-wider hover:bg-plum-dark hover:text-rose-soft transition-colors">
-              Ver Cosméticos
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel />
+
+      {/* Brands Section */}
+      <BrandsSection />
+
+      {/* Categories Carousel - Flutuante */}
+      <CategoriesCarousel />
+
+      {/* Collections Section */}
+      <CollectionsSection />
 
       {/* Produtos em Destaque */}
       <section className="py-16">
