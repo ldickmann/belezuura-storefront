@@ -10,6 +10,8 @@ import {
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
+import { NewsletterForm } from "@/components/layout/NewsletterForm";
+
 /**
  * Links de navegação da seção Home.
  * Separados do JSX para facilitar manutenção sem tocar na marcação.
@@ -182,26 +184,12 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Formulário de newsletter
-              Nota: sem action e sem onSubmit — formulário estático.
-              Para integrar envio real, extraia para um Client Component. */}
+          {/* Formulário de newsletter — Client Component para suportar interatividade */}
           <div className="flex flex-col gap-4">
             <h4 className="text-[15px] font-bold text-gold-warm">
               Inscreva-se
             </h4>
-            <form className="flex items-center rounded-[5px] overflow-hidden border border-rose-soft/20 bg-rose-soft/10">
-              <input
-                type="email"
-                placeholder="Digite seu e-mail"
-                aria-label="E-mail para newsletter"
-                className="flex-1 bg-transparent px-4 py-3 text-sm text-rose-soft placeholder:text-rose-soft/30 focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="bg-rose-soft text-plum-dark text-sm font-bold px-4 py-3 hover:bg-gold-warm transition-colors shrink-0">
-                Enviar
-              </button>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
 
