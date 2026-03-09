@@ -1,4 +1,4 @@
-import { getWixClient } from "@/lib/wix-client";
+import { getWixServerClient } from "@/lib/wix-client.server";
 
 export interface Product {
   id: string;
@@ -18,7 +18,7 @@ export interface Product {
 
 export async function getProducts(limit = 10): Promise<Product[]> {
   try {
-    const client = getWixClient();
+    const client = await getWixServerClient();
     const response = await client.products
       .queryProducts()
       .limit(limit)
