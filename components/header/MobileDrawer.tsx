@@ -119,7 +119,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             onClose={onClose}>
             <span className="flex items-center gap-3">
               <span
-                className="bg-gold-warm text-plum-dark px-2.5 py-[5px] rounded-lg
+                className="bg-gold-warm text-plum-dark px-2.5 py-1.25 rounded-lg
                            text-[11px] font-extrabold tracking-wide uppercase leading-none">
                 OUTLET
               </span>
