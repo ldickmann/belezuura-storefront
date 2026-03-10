@@ -71,7 +71,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
       {/* ───────────────────────────────────────────────────── */}
       <div className="flex gap-2.5 px-5 py-4 border-b border-sand/15 shrink-0">
         <Link
-          href="/conta/entrar"
+          href="/conta"
           onClick={onClose}
           className="flex-1 h-11 flex items-center justify-center ring-1 ring-inset ring-plum-dark/25
                      rounded-xl text-[13px] font-semibold text-plum-dark
@@ -79,7 +79,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           Entrar
         </Link>
         <Link
-          href="/conta/criar"
+          href="/conta"
           onClick={onClose}
           className="flex-1 h-11 flex items-center justify-center bg-plum-dark text-rose-soft
                      rounded-xl text-[13px] font-semibold
