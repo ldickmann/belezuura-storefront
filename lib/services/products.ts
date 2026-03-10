@@ -85,6 +85,29 @@ export async function getProducts(limit = 10): Promise<Product[]> {
 }
 
 // ─────────────────────────────────────────────────────────────
+// getProductBySlug
+// ─────────────────────────────────────────────────────────────
+
+export async function getProductBySlug(
+  slug: string
+): Promise<Product | null> {
+  try {
+    const client = await getWixServerClient();
+    const response = await client.products
+      .queryProducts()
+      .eq("slug", slug)
+      .limit(1)
+      .find();
+
+    if (!response.items.length) return null;
+    return mapProduct(response.items[0]);
+  } catch (error) {
+    console.error("Erro ao buscar produto por slug:", error);
+    return null;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
 // searchProducts
 // ─────────────────────────────────────────────────────────────
 
