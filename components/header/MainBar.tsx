@@ -80,7 +80,7 @@ export function MainBar({
               width={120}
               height={44}
               priority
-              className="h-8 sm:h-9 lg:h-10 w-auto object-contain"
+              className="h-14 sm:h-16 lg:h-24 w-auto object-contain"
             />
           </Link>
 
