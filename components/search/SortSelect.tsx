@@ -15,16 +15,21 @@ const SORT_OPTIONS = [
 
 interface SortSelectProps {
   currentSort: string;
+  /** Rota base para montar a URL de ordenação. Padrão: "/search" */
+  basePath?: string;
 }
 
-export function SortSelect({ currentSort }: SortSelectProps) {
+export function SortSelect({
+  currentSort,
+  basePath = "/search",
+}: SortSelectProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("sort", e.target.value);
-    router.push(`/search?${params.toString()}`);
+    router.push(`${basePath}?${params.toString()}`);
   }
 
   return (
@@ -52,7 +57,6 @@ export function SortSelect({ currentSort }: SortSelectProps) {
             </option>
           ))}
         </select>
-        {/* Chevron custom */}
         <svg
           className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-plum-dark/40"
           width="12"
