@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Cookies from "js-cookie";
 import { getWixBrowserClient } from "@/lib/wix-client.browser";
 
@@ -52,11 +53,11 @@ export default function LoginCallbackPage() {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <p className="text-red-500 mb-4">{error}</p>
-        <a
+        <Link
           href="/"
           className="text-plum-dark underline">
           Voltar para a home
-        </a>
+        </Link>
       </div>
     );
   }
