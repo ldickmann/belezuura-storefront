@@ -1,8 +1,6 @@
-// app/conta/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { getWixBrowserClient } from "@/lib/wix-client.browser";
@@ -11,7 +9,6 @@ import type { members } from "@wix/members";
 type Member = members.Member;
 
 export default function ContaPage() {
-  const router = useRouter();
   const [member, setMember] = useState<Member | null>(null);
   const [loading, setLoading] = useState(true);
 
