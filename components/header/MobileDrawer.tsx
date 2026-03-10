@@ -49,13 +49,18 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
       {/* Header do Drawer */}
       {/* ───────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between px-5 h-16 border-b border-sand/20 shrink-0">
-        <Image
-          src="/logo/logo-belezuura-sem-fundo.jpg"
-          alt="Belezuura"
-          width={100}
-          height={38}
-          className="h-14 w-auto object-contain"
-        />
+        <Link
+          href="/"
+          onClick={onClose}
+          aria-label="Página inicial Belezuura">
+          <Image
+            src="/logo/logo-belezuura-sem-fundo.jpg"
+            alt="Belezuura"
+            width={100}
+            height={38}
+            className="h-14 w-auto object-contain"
+          />
+        </Link>
         <button
           onClick={onClose}
           aria-label="Fechar menu"
