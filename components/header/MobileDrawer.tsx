@@ -54,7 +54,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           alt="Belezuura"
           width={100}
           height={38}
-          className="h-8 w-auto object-contain"
+          className="h-14 w-auto object-contain"
         />
         <button
           onClick={onClose}
