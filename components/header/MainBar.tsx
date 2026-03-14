@@ -125,7 +125,7 @@ export function MainBar({
           {/* ────────────────────────────────────────────────────── */}
           {/* Ícones de Ação (Direita) */}
           {/* ────────────────────────────────────────────────────── */}
-          <div className="flex items-center gap-0.5 lg:gap-1 ml-auto md:ml-0 shrink-0">
+          <div className="flex items-center gap-1 ml-auto md:ml-0 shrink-0">
             {/* Busca — Mobile only */}
             <button
               onClick={onSearchToggle}
@@ -136,28 +136,19 @@ export function MainBar({
             </button>
 
             {/* Minha Conta — Desktop only */}
-            <div className="hidden md:flex items-center px-2.5 h-full">
+            <div className="hidden md:flex items-center px-1.5 h-full">
               <LoginButton variant="compact" />
             </div>
 
             {/* Sacola de Compras */}
             <Link
               href="/carrinho"
-              aria-label="Sacola de compras"
-              className="flex items-center gap-1.5 text-plum-dark/65 hover:text-plum-dark
-                         transition-colors group px-2 md:px-2.5 h-full">
+              aria-label="Abrir sacola de compras"
+              className="flex items-center justify-center w-9 h-9 text-plum-dark/65 hover:text-plum-dark transition-colors">
               <ShoppingBag
                 size={19}
                 className="shrink-0"
               />
-              <span className="hidden xl:flex flex-col leading-tight">
-                <span className="text-[10px] text-plum-dark/40 group-hover:text-plum-dark/60 transition-colors">
-                  Sua
-                </span>
-                <span className="text-xs font-semibold tracking-wide">
-                  Sacola
-                </span>
-              </span>
             </Link>
           </div>
         </div>
