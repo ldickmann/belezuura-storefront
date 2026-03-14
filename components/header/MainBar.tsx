@@ -8,10 +8,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Search, ShoppingBag, Menu, User } from "lucide-react";
+import { Search, ShoppingBag, Menu } from "lucide-react";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { NAV_LINKS } from "@/components/constants/navigation";
 import { useNavigation } from "@/components/hooks/useNavigation";
+import { LoginButton } from "@/components/auth/LoginButton";
 
 // ─────────────────────────────────────────────────────────────
 // Interfaces
@@ -135,24 +136,9 @@ export function MainBar({
             </button>
 
             {/* Minha Conta — Desktop only */}
-            <Link
-              href="/conta"
-              aria-label="Minha conta"
-              className="hidden md:flex items-center gap-1.5 text-plum-dark/65 hover:text-plum-dark
-                         transition-colors group px-2.5 h-full">
-              <User
-                size={18}
-                className="shrink-0"
-              />
-              <span className="hidden xl:flex flex-col leading-tight">
-                <span className="text-[10px] text-plum-dark/40 group-hover:text-plum-dark/60 transition-colors">
-                  Olá! Entrar na
-                </span>
-                <span className="text-xs font-semibold tracking-wide">
-                  Minha Conta
-                </span>
-              </span>
-            </Link>
+            <div className="hidden md:flex items-center px-2.5 h-full">
+              <LoginButton variant="compact" />
+            </div>
 
             {/* Sacola de Compras */}
             <Link

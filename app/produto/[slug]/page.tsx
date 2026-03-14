@@ -9,6 +9,17 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getProductBySlug } from "@/lib/services/products";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
+
+const WIX_BASE_URL = "https://rbertelli8.wixstudio.com/belezuura-new-ui";
+
+function wixProductUrl(slug: string) {
+  return `${WIX_BASE_URL}/product-page/${slug}`;
+}
+
+function wixCartUrl() {
+  return `${WIX_BASE_URL}/cart`;
+}
 
 // ─────────────────────────────────────────────────────────────
 // Metadata dinâmica
@@ -21,7 +32,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
-  if (!product) return { title: "Produto não encontrado | Belezuura" };
+  if (!product) return { title: "Produto nao encontrado | Belezuura" };
   return {
     title: `${product.name} | Belezuura`,
     description: product.description || `Compre ${product.name} na Belezuura`,
@@ -146,32 +157,35 @@ export default async function ProductPage({
             />
           )}
 
-          {/* Botão de compra */}
+          {/* Botões */}
           <div className="mt-auto space-y-3">
-            <button
+            <AddToCartButton
+              productId={product.id}
               disabled={!product.inStock}
-              className="w-full h-13 flex items-center justify-center
-                         bg-plum-dark text-rose-soft rounded-2xl
-                         text-sm font-semibold tracking-wide
-                         hover:bg-plum-dark/90 transition-colors
-                         disabled:opacity-40 disabled:cursor-not-allowed">
-              {product.inStock ? "Adicionar à sacola" : "Produto esgotado"}
-            </button>
+            />
 
-            <button
-              disabled={!product.inStock}
+            <a
+              href={wixCartUrl()}
               className="w-full h-13 flex items-center justify-center
                          ring-1 ring-inset ring-plum-dark/25 rounded-2xl
                          text-sm font-semibold text-plum-dark
-                         hover:bg-plum-dark/5 transition-colors
-                         disabled:opacity-40 disabled:cursor-not-allowed">
-              Comprar agora
-            </button>
+                         hover:bg-plum-dark/5 transition-colors">
+              Ver carrinho no Wix
+            </a>
+
+            <a
+              href={wixProductUrl(product.slug)}
+              className="w-full h-13 flex items-center justify-center
+                         ring-1 ring-inset ring-plum-dark/25 rounded-2xl
+                         text-sm font-semibold text-plum-dark
+                         hover:bg-plum-dark/5 transition-colors">
+              Comprar agora no Wix
+            </a>
           </div>
 
           {/* Info de entrega */}
           <p className="mt-5 text-[12px] text-plum-dark/35 text-center">
-            🚚 Frete grátis em compras acima de R$ 299
+            Frete gratis em compras acima de R$ 299
           </p>
         </div>
       </div>

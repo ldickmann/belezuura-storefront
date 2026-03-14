@@ -8,12 +8,26 @@ export function getWixBrowserClient() {
   const clientId = process.env.NEXT_PUBLIC_WIX_CLIENT_ID;
   if (!clientId) throw new Error("NEXT_PUBLIC_WIX_CLIENT_ID não definido");
 
-  // No browser, lemos o cookie via js-cookie
+  // Lê tokens salvos (cookie com encode)
   const sessionCookie = Cookies.get("session");
-  const tokens = sessionCookie ? JSON.parse(sessionCookie) : undefined;
+  const tokens = sessionCookie
+    ? JSON.parse(decodeURIComponent(sessionCookie))
+    : undefined;
 
-  return createClient({
+  const client = createClient({
     modules: { members, currentCart },
     auth: OAuthStrategy({ clientId, tokens }),
   });
+
+  // Salva tokens atuais/renovados para manter a sessão válida
+  const currentTokens = client.auth.getTokens();
+  if (currentTokens) {
+    Cookies.set("session", encodeURIComponent(JSON.stringify(currentTokens)), {
+      expires: 365,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+  }
+
+  return client;
 }

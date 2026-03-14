@@ -1,12 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getProducts } from "@/lib/services/products";
+import { getWixServerClient } from "@/lib/wix-client.server";
 import HeroCarousel from "@/components/HeroCarousel";
 import BrandsSection from "@/components/BrandsSection";
-import CategoriesCarousel from "@/components/CategoriesCarousel";
 import CollectionsSection from "@/components/ColletionsSection";
 
 export default async function Home() {
+  // Teste de conexão com a API Wix
+  try {
+    const wixClient = await getWixServerClient();
+    console.log("✅ [WIX TEST] Wix Client inicializado com sucesso!");
+    console.log(
+      "✅ [WIX TEST] Auth Strategy:",
+      wixClient ? "Conectado" : "Não iniciado",
+    );
+  } catch (error) {
+    console.error("❌ [WIX TEST] Erro ao inicializar Wix Client:", error);
+  }
+
   const products = await getProducts(4);
 
   return (
@@ -16,9 +28,6 @@ export default async function Home() {
 
       {/* Brands Section */}
       <BrandsSection />
-
-      {/* Categories Carousel - Flutuante */}
-      <CategoriesCarousel />
 
       {/* Collections Section */}
       <CollectionsSection />

@@ -9,8 +9,8 @@
  */
 
 import { Suspense } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { searchProducts } from "@/lib/services/products";
 import type { Product, SortOption } from "@/lib/services/products";
@@ -138,10 +138,6 @@ export default async function LojaPage({
               <p className="text-sm text-plum-dark/40 hidden sm:block">
                 {total} produto{total !== 1 ? "s" : ""}
               </p>
-              {/*
-               * basePath="/loja" garante que ao mudar o sort a URL
-               * permanece em /loja?sort=... e não navega para /search
-               */}
               <Suspense
                 fallback={
                   <div className="h-9 w-44 bg-sand/20 rounded-xl animate-pulse" />

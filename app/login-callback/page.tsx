@@ -26,13 +26,22 @@ export default function LoginCallbackPage() {
         const { code, state } = client.auth.parseFromUrl();
         let tokens = await client.auth.getMemberTokens(code, state, data);
 
-        // Aguarda o token de refresh estar disponível
-        while (!tokens?.refreshToken?.value) {
+        // Aguarda o token de refresh estar disponível (máx 5 tentativas)
+        let tries = 0;
+        while (!tokens?.refreshToken?.value && tries < 5) {
           tokens = await client.auth.getMemberTokens(code, state, data);
+          tries += 1;
         }
 
+        if (!tokens?.refreshToken?.value) {
+          throw new Error("Token de refresh não foi obtido.");
+        }
+
+        // Coloca os tokens no client
+        client.auth.setTokens(tokens);
+
         // Salva os tokens na cookie de sessão
-        Cookies.set("session", JSON.stringify(tokens), {
+        Cookies.set("session", encodeURIComponent(JSON.stringify(tokens)), {
           expires: 365,
           sameSite: "lax",
           secure: process.env.NODE_ENV === "production",

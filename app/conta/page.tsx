@@ -11,7 +11,6 @@ type AuthState = "loading" | "guest" | "member";
 
 export default function ContaPage() {
   const [member, setMember] = useState<Member | null>(null);
-  // const [loading, setLoading] = useState(true);
   const [authState, setAuthState] = useState<AuthState>("loading");
 
   useEffect(() => {
@@ -19,7 +18,6 @@ export default function ContaPage() {
       const client = getWixBrowserClient();
 
       if (!client.auth.loggedIn()) {
-        // ✅ Apenas marca como "guest" — sem redirecionar automaticamente
         setAuthState("guest");
         return;
       }
@@ -38,7 +36,6 @@ export default function ContaPage() {
     init();
   }, []);
 
-  // ✅ Redirect para Wix só acontece quando o usuário clica
   async function handleLogin() {
     const client = getWixBrowserClient();
     const data = client.auth.generateOAuthData(
@@ -67,7 +64,6 @@ export default function ContaPage() {
     );
   }
 
-  // ✅ Tela de acesso (não logado) — sem loop
   if (authState === "guest") {
     return (
       <section className="container mx-auto px-4 py-24 max-w-sm text-center">
@@ -101,7 +97,6 @@ export default function ContaPage() {
     );
   }
 
-  // ─── Área do membro (logado) ────────────────────────────────
   const firstName =
     member?.contact?.firstName || member?.profile?.nickname || "Cliente";
   const email = member?.loginEmail ?? "";
@@ -109,7 +104,33 @@ export default function ContaPage() {
 
   return (
     <section className="container mx-auto px-4 py-12 max-w-2xl">
-      {/* ... todo o restante do JSX logado permanece igual */}
+      <h1 className="text-3xl font-serif text-plum-dark mb-6">
+        Ola, {firstName}
+      </h1>
+
+      <div className="space-y-4">
+        <div className="p-4 rounded-xl bg-rose-soft/40">
+          <p className="text-xs uppercase tracking-widest text-plum-dark/50 mb-1">
+            Email
+          </p>
+          <p className="text-sm text-plum-dark">{email || "Nao informado"}</p>
+        </div>
+
+        <div className="p-4 rounded-xl bg-rose-soft/40">
+          <p className="text-xs uppercase tracking-widest text-plum-dark/50 mb-1">
+            Telefone
+          </p>
+          <p className="text-sm text-plum-dark">{phone || "Nao informado"}</p>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <button
+          onClick={handleLogout}
+          className="h-11 px-5 rounded-xl bg-plum-dark text-rose-soft text-sm font-semibold hover:bg-plum-dark/90 transition-colors">
+          Sair da conta
+        </button>
+      </div>
     </section>
   );
 }
