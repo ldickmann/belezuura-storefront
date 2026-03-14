@@ -4,7 +4,6 @@ import { getProducts } from "@/lib/services/products";
 import { getWixServerClient } from "@/lib/wix-client.server";
 import HeroCarousel from "@/components/HeroCarousel";
 import BrandsSection from "@/components/BrandsSection";
-import CategoriesCarousel from "@/components/CategoriesCarousel";
 import CollectionsSection from "@/components/ColletionsSection";
 
 export default async function Home() {
@@ -29,9 +28,6 @@ export default async function Home() {
 
       {/* Brands Section */}
       <BrandsSection />
-
-      {/* Categories Carousel - Flutuante */}
-      <CategoriesCarousel />
 
       {/* Collections Section */}
       <CollectionsSection />

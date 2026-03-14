@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { getWixServerClient } from "@/lib/wix-client.server";
 import { products as wixProducts } from "@wix/stores";
 
@@ -49,6 +50,15 @@ function normalize(s: string): string {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
+}
+
+/**
+ * Converte texto em slug simples (sem acentos, espaços → hífen).
+ */
+function slugify(s: string): string {
+  return normalize(s)
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 }
 
 /**
@@ -104,6 +114,20 @@ function sortProducts(items: Product[], sortBy: SortOption): Product[] {
 }
 
 // ─────────────────────────────────────────────────────────────
+// Cache: lista completa (usada em search e fallback por slug)
+// ─────────────────────────────────────────────────────────────
+
+const getAllProductsCached = cache(async () => {
+  const client = await getWixServerClient();
+  const response = await client.products
+    .queryProducts()
+    .limit(100)
+    .find();
+
+  return response.items.map(mapProduct);
+});
+
+// ─────────────────────────────────────────────────────────────
 // getProducts — listagem simples (home, destaques, etc.)
 // ─────────────────────────────────────────────────────────────
 
@@ -113,13 +137,8 @@ function sortProducts(items: Product[], sortBy: SortOption): Product[] {
  */
 export async function getProducts(limit = 10): Promise<Product[]> {
   try {
-    const client = await getWixServerClient();
-    const response = await client.products
-      .queryProducts()
-      .limit(limit)
-      .find();
-
-    return response.items.map(mapProduct);
+    const all = await getAllProductsCached();
+    return all.slice(0, limit);
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
     return [];
@@ -139,14 +158,45 @@ export async function getProductBySlug(
 ): Promise<Product | null> {
   try {
     const client = await getWixServerClient();
-    const response = await client.products
+    const decodedSlug = decodeURIComponent(slug);
+
+    // 1) tenta slug exato
+    let response = await client.products
       .queryProducts()
-      .eq("slug", slug)
+      .eq("slug", decodedSlug)
       .limit(1)
       .find();
 
-    if (!response.items.length) return null;
-    return mapProduct(response.items[0]);
+    if (response.items.length) {
+      return mapProduct(response.items[0]);
+    }
+
+    // 2) tenta slug sem acentos
+    const normalizedSlug = normalize(decodedSlug);
+    if (normalizedSlug !== decodedSlug) {
+      response = await client.products
+        .queryProducts()
+        .eq("slug", normalizedSlug)
+        .limit(1)
+        .find();
+
+      if (response.items.length) {
+        return mapProduct(response.items[0]);
+      }
+    }
+
+    // 3) fallback: usa cache local da lista completa
+    const all = await getAllProductsCached();
+    const target = slugify(decodedSlug);
+
+    const match = all.find((item) => {
+      const itemSlug = item.slug ? slugify(item.slug) : "";
+      const itemName = item.name ? slugify(item.name) : "";
+      return itemSlug === target || itemName === target;
+    });
+
+    if (!match) return null;
+    return match;
   } catch (error) {
     console.error("Erro ao buscar produto por slug:", error);
     return null;
@@ -172,15 +222,7 @@ export async function searchProducts(
   const { query = "", sortBy = "relevance", limit = 24 } = options;
 
   try {
-    const client = await getWixServerClient();
-
-    // Busca sem modificadores de sort — ordenação feita em JS abaixo
-    const response = await client.products
-      .queryProducts()
-      .limit(100)
-      .find();
-
-    const allItems = response.items.map(mapProduct);
+    const allItems = await getAllProductsCached();
 
     // Ordena antes de filtrar para respeitar a ordem mesmo em resultados parciais
     const sorted = sortProducts(allItems, sortBy);
