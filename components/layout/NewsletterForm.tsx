@@ -37,7 +37,7 @@ export function NewsletterForm() {
     <div className="flex flex-col gap-3">
       <form
         onSubmit={handleSubmit}
-        className="flex items-center rounded-[5px] overflow-hidden border border-rose-soft/20 bg-rose-soft/10">
+        className="min-w-0 flex items-center rounded-[5px] overflow-hidden border border-rose-soft/20 bg-rose-soft/10">
         <input
           type="email"
           value={email}
@@ -46,7 +46,7 @@ export function NewsletterForm() {
           aria-label="E-mail para newsletter"
           required
           disabled={status === "loading"}
-          className="flex-1 bg-transparent px-4 py-3 text-sm text-rose-soft placeholder:text-rose-soft/30 focus:outline-none disabled:opacity-50"
+          className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-rose-soft placeholder:text-rose-soft/30 focus:outline-none disabled:opacity-50"
         />
         <button
           type="submit"
