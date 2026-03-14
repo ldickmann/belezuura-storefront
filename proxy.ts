@@ -2,7 +2,7 @@ import { createClient, OAuthStrategy } from "@wix/sdk";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Se o visitante já tem um token de sessão, deixa passar
   if (request.cookies.get("session")?.value) {
     return NextResponse.next();
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
-// O middleware roda em TODAS as rotas, exceto assets estáticos
+// O proxy roda em TODAS as rotas, exceto assets estáticos
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico|images|svg|logo).*)"],
 };
