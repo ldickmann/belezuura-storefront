@@ -36,6 +36,18 @@ export interface SearchProductsResult {
   total: number;
 }
 
+/**
+ * Interface para opções de filtro
+ * Usada para filtrar produtos em memória
+ */
+export interface FilterOptions {
+  categories?: string[];
+  colors?: string[];
+  sizes?: string[];
+  priceMin?: number;
+  priceMax?: number;
+}
+
 // ─────────────────────────────────────────────────────────────
 // Helpers internos
 // ─────────────────────────────────────────────────────────────
@@ -204,4 +216,70 @@ export async function searchProducts(
     console.error("Erro ao buscar produtos:", error);
     return { items: [], total: 0 };
   }
+}
+
+// ─────────────────────────────────────────────────────────────
+// filterProducts — filtra produtos por categoria, cor, tamanho, preço
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Filtra produtos em memória baseado em critérios
+ *
+ * ENTENDER ISTO:
+ * Como o Wix não retorna campos de categoria/cor/tamanho,
+ * usamos busca por palavras-chave no nome e descrição
+ *
+ * Exemplo:
+ * - Filtro: categories=["jeans"]
+ * - Produto: "Calça jeans feminina"
+ * - Match: ✅ (nome inclui "jeans")
+ *
+ * @param products - Lista de produtos
+ * @param options - Opções de filtro
+ * @returns Produtos filtrados
+ */
+export function filterProducts(
+  products: Product[],
+  options: FilterOptions
+): Product[] {
+  return products.filter((product) => {
+    const nameLower = product.name.toLowerCase();
+    const descLower = product.description.toLowerCase();
+    const fullText = `${nameLower} ${descLower}`;
+
+    // 1. Filtro de Categoria
+    if (options.categories && options.categories.length > 0) {
+      const hasCategory = options.categories.some((cat) =>
+        fullText.includes(cat.toLowerCase())
+      );
+      if (!hasCategory) return false;
+    }
+
+    // 2. Filtro de Cores
+    if (options.colors && options.colors.length > 0) {
+      const hasColor = options.colors.some((color) =>
+        fullText.includes(color.toLowerCase())
+      );
+      if (!hasColor) return false;
+    }
+
+    // 3. Filtro de Tamanhos
+    if (options.sizes && options.sizes.length > 0) {
+      const hasSize = options.sizes.some((size) =>
+        fullText.includes(size.toLowerCase())
+      );
+      if (!hasSize) return false;
+    }
+
+    // 4. Filtro de Preço
+    const price = parseFloat(product.price.amount);
+    if (options.priceMin !== undefined && price < options.priceMin) {
+      return false;
+    }
+    if (options.priceMax !== undefined && price > options.priceMax) {
+      return false;
+    }
+
+    return true;
+  });
 }
