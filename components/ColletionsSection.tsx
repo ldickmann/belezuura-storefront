@@ -24,7 +24,7 @@ type Collection = {
 const COLLECTIONS: Collection[] = [
   {
     id: "c1",
-    bg: "/images/collections-image_1.jpg",
+    bg: "/images/collections/collections-image_1.jpg",
     category: "accessories",
     subtitleBold: "new",
     subtitleText: "accessories",
@@ -39,7 +39,7 @@ const COLLECTIONS: Collection[] = [
   },
   {
     id: "s1",
-    bg: "/images/collections-image_2.jpg",
+    bg: "/images/collections/collections-image_2.jpg",
     category: "",
     title: (
       <>
@@ -52,7 +52,7 @@ const COLLECTIONS: Collection[] = [
   },
   {
     id: "c2",
-    bg: "/images/collections-image_3.jpg",
+    bg: "/images/collections/collections-image_3.jpg",
     category: "sweters",
     subtitleBold: "men",
     subtitleText: "collection",
@@ -67,7 +67,7 @@ const COLLECTIONS: Collection[] = [
   },
   {
     id: "c3",
-    bg: "/images/collections-image_3.jpg",
+    bg: "/images/collections/collections-image_3.jpg",
     category: "dresses",
     subtitleBold: "women",
     subtitleText: "collection",
@@ -212,7 +212,7 @@ export default function CollectionsSection() {
                     />
                   </div>
                 </article>
-              )
+              ),
             )}
           </div>
 
