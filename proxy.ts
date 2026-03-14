@@ -2,7 +2,7 @@ import { createClient, OAuthStrategy } from "@wix/sdk";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export async function proxy(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   // Se o visitante já tem um token de sessão, deixa passar
   if (request.cookies.get("session")?.value) {
     return NextResponse.next();
@@ -17,10 +17,9 @@ export async function proxy(request: NextRequest) {
   });
 
   const visitorTokens = await client.auth.generateVisitorTokens();
-  response.cookies.set("session", JSON.stringify(visitorTokens), {
-    // Cookie dura 1 ano (tempo padrão do token anônimo do Wix)
+  response.cookies.set("session", encodeURIComponent(JSON.stringify(visitorTokens)), {
     maxAge: 60 * 60 * 24 * 365,
-    httpOnly: false, // Precisa ser false para o browser ler ao fazer login
+    httpOnly: false,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
   });

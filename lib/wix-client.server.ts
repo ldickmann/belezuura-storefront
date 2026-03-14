@@ -11,7 +11,9 @@ export async function getWixServerClient() {
   // No servidor, lemos o cookie via next/headers
   const cookieStore = await cookies();
   const sessionCookie = cookieStore.get("session")?.value;
-  const tokens = sessionCookie ? JSON.parse(sessionCookie) : undefined;
+  const tokens = sessionCookie
+    ? JSON.parse(decodeURIComponent(sessionCookie))
+    : undefined;
 
   return createClient({
     modules: { products, collections, members, orders, currentCart },
