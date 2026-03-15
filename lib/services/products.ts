@@ -256,20 +256,22 @@ export async function getProductsByCollection(
   collectionSlug: string,
   options: { sortBy?: SortOption; limit?: number } = {}
 ): Promise<SearchProductsResult> {
-  const { sortBy = "relevance", limit = 24 } = options;
+  const { sortBy = "relevance", limit = 60 } = options;
 
   try {
     const allItems = await getAllProductsCached();
     const sorted = sortProducts(allItems, sortBy);
 
-    // Filtra pelo nome da coleção/categoria presente no nome ou descrição
-    // (solução imediata sem precisar dos IDs de coleção do Wix)
-    const normalizedSlug = normalize(collectionSlug);
-    const filtered = sorted.filter(
-      (p) =>
-        normalize(p.name).includes(normalizedSlug) ||
-        normalize(p.description).includes(normalizedSlug)
-    );
+    // Divide o slug em termos: "shorts-saias" → ["shorts", "saias"]
+    const terms = normalize(collectionSlug)
+      .split(/[^a-z0-9]+/)
+      .filter(Boolean);
+
+    const filtered = sorted.filter((p) => {
+      const name = normalize(p.name);
+      const desc = normalize(p.description);
+      return terms.some((term) => name.includes(term) || desc.includes(term));
+    });
 
     return {
       items: filtered.slice(0, limit),
