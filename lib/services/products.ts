@@ -247,3 +247,36 @@ export async function searchProducts(
     return { items: [], total: 0 };
   }
 }
+
+/**
+ * Busca produtos de uma coleção específica pelo slug da coleção.
+ * Ex: "alfaiataria", "maquiagem", "cosmeticos"
+ */
+export async function getProductsByCollection(
+  collectionSlug: string,
+  options: { sortBy?: SortOption; limit?: number } = {}
+): Promise<SearchProductsResult> {
+  const { sortBy = "relevance", limit = 24 } = options;
+
+  try {
+    const allItems = await getAllProductsCached();
+    const sorted = sortProducts(allItems, sortBy);
+
+    // Filtra pelo nome da coleção/categoria presente no nome ou descrição
+    // (solução imediata sem precisar dos IDs de coleção do Wix)
+    const normalizedSlug = normalize(collectionSlug);
+    const filtered = sorted.filter(
+      (p) =>
+        normalize(p.name).includes(normalizedSlug) ||
+        normalize(p.description).includes(normalizedSlug)
+    );
+
+    return {
+      items: filtered.slice(0, limit),
+      total: filtered.length,
+    };
+  } catch (error) {
+    console.error("Erro ao buscar produtos por coleção:", error);
+    return { items: [], total: 0 };
+  }
+}

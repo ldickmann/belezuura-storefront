@@ -125,7 +125,7 @@ function NavList({ items }: { items: { label: string; href: string }[] }) {
 export function Footer() {
   return (
     <footer className="bg-plum-dark text-rose-soft">
-      <div className="max-w-360 mx-auto px-6 xl:px-37.25 pt-12.5">
+      <div className="max-w-site-container mx-auto w-full px-6 lg:px-10 pt-12.5">
         {/* Grade principal: Logo | Home+Empresa | Políticas | Contato | Newsletter */}
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_1fr_1fr_280px] gap-10">
           {/* Identidade da marca */}

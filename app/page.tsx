@@ -34,7 +34,7 @@ export default async function Home() {
 
       {/* Produtos em Destaque */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
+        <div className="max-w-site-container mx-auto w-full px-4">
           <h2 className="text-3xl text-plum-dark text-center mb-12 font-serif">
             Destaques
           </h2>
@@ -60,7 +60,7 @@ export default async function Home() {
                     <h3 className="text-plum-dark font-medium group-hover:text-sage transition-colors">
                       {product.name}
                     </h3>
-                    <p className="text-plum-dark/60 text-sm">
+                    <p className="text-plum-dark/60 text-sm mt-1">
                       {product.price.formatted}
                     </p>
                   </Link>

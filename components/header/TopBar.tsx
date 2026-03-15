@@ -7,21 +7,11 @@
 
 "use client";
 
-import { X } from "lucide-react";
 import { RotatingBanner } from "@/components/ui/RotatingBanner";
 import {
   PROMO_OFFERS,
   type PromoOffer,
 } from "@/components/constants/navigation";
-
-// ─────────────────────────────────────────────────────────────
-// Interfaces
-// ─────────────────────────────────────────────────────────────
-
-interface TopBarProps {
-  /** Callback ao clicar no botão de fechar */
-  onDismiss: () => void;
-}
 
 // ─────────────────────────────────────────────────────────────
 // Componente
@@ -30,7 +20,7 @@ interface TopBarProps {
 /**
  * Barra promocional superior com ofertas rotativas
  */
-export function TopBar({ onDismiss }: TopBarProps) {
+export function TopBar() {
   return (
     <RotatingBanner
       items={PROMO_OFFERS}
@@ -38,9 +28,8 @@ export function TopBar({ onDismiss }: TopBarProps) {
       animationDuration={400}
       className="bg-plum-dark text-rose-soft text-[11px] sm:text-xs py-2 px-4
                  flex items-center justify-center min-h-8 overflow-hidden"
-      onDismiss={onDismiss}
       renderItem={(offer: PromoOffer) => (
-        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-6">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-6 max-w-site-container">
           {/* Texto da oferta */}
           <span className="text-rose-soft/80 tracking-wide text-center leading-snug">
             {offer.text}

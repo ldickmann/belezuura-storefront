@@ -13,8 +13,6 @@ interface RotatingBannerProps<T> {
   animationDuration?: number;
   /** Classes CSS personalizadas */
   className?: string;
-  /** Callback chamado ao fechar o banner */
-  onDismiss?: () => void;
 }
 
 /**
@@ -36,7 +34,6 @@ export function RotatingBanner<T>({
   interval = 4000,
   animationDuration = 400,
   className = "",
-  onDismiss,
 }: RotatingBannerProps<T>) {
   // Índice do item atualmente exibido
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -76,15 +73,6 @@ export function RotatingBanner<T>({
         }}>
         {renderItem(items[currentIndex])}
       </div>
-      {/* Botão X para fechar (opcional) */}
-      {onDismiss && (
-        <button
-          onClick={onDismiss}
-          aria-label="Fechar banner"
-          className="absolute right-0 top-0 h-full px-3">
-          ✕
-        </button>
-      )}
     </div>
   );
 }
