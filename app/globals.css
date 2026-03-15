@@ -75,6 +75,9 @@
   /* Mapeamento de variáveis de sistema */
   --color-background: var(--color-surface);
   --color-foreground: var(--color-brand-primary);
+
+  /* Token de largura max do container do site 1280px */
+  --max-width-site-container: 1280px;
 }
 
 /* ── 3. Reset global ────────────────────────────────────────

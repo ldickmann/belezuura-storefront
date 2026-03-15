@@ -54,7 +54,7 @@ export function MainBar({
     <div
       className="bg-white"
       style={{ borderBottom: "1px solid rgba(211,171,145,0.25)" }}>
-      <div className="container mx-auto px-3 sm:px-5 lg:px-8">
+      <div className="max-w-site-container mx-auto w-full px-3 sm:px-5 lg:px-8">
         <div className="flex items-stretch h-14 lg:h-16 gap-2 sm:gap-3 lg:gap-4">
           {/* ────────────────────────────────────────────────────── */}
           {/* Hambúrguer — Mobile only */}

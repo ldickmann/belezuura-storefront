@@ -29,7 +29,7 @@ export function TopBar() {
       className="bg-plum-dark text-rose-soft text-[11px] sm:text-xs py-2 px-4
                  flex items-center justify-center min-h-8 overflow-hidden"
       renderItem={(offer: PromoOffer) => (
-        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-6">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-6 max-w-site-container">
           {/* Texto da oferta */}
           <span className="text-rose-soft/80 tracking-wide text-center leading-snug">
             {offer.text}
